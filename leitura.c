@@ -14,22 +14,26 @@ Fila * leitura(char *path){
 
     while(1){
         int originalTam = 0, copiaTam = 0;
+        int tamMax = 0;
 
-        char *numero = (char*)malloc(200 * sizeof(char));
-        fgets(numero, 200, arq);
+        char *numero = (char*)malloc(500 * sizeof(char));
+        fgets(numero, 500, arq);
         sscanf(numero, "%d %d", &originalTam, &copiaTam);
         free(numero);
 
-        printf("teste %d %d\n", originalTam, copiaTam);
-        if(originalTam == 0 && copiaTam == 0) break;
+        //printf("teste %d %d\n", originalTam, copiaTam);
+        if(originalTam == 0 && copiaTam == 0){
+            break;
+        } 
 
         //--------------------------------------------------//
 
         int *original = (int*)malloc(originalTam * sizeof(int));
         int *copia = (int*)malloc(copiaTam * sizeof(int));
+        tamMax = originalTam * 5;
 
-        char *linha = (char*)malloc((originalTam * originalTam + 1) * sizeof(char)); // Tamanho da linha ao quadrado + 1 para o terminador nulo
-        fgets(linha, originalTam * originalTam + 1, arq); // Ler a linha inteira
+        char *linha = (char*)malloc(tamMax * sizeof(char)); // Tamanho da linha ao quadrado + 1 para o terminador nulo
+        fgets(linha, tamMax, arq); // Ler a linha inteira
 
         char *token = strtok(linha, " ");
         for(int i = 0; token != NULL && i < originalTam; i++) {
@@ -43,9 +47,7 @@ Fila * leitura(char *path){
             token = strtok(NULL, " ");
         }
 
-        free(linha);
-        linha = (char*)malloc((copiaTam * copiaTam + 1) * sizeof(char)); // Tamanho da linha ao quadrado + 1 para o terminador nulo
-        fgets(linha, copiaTam * copiaTam + 1, arq); // Ler a linha inteira
+        fgets(linha, tamMax, arq); // Ler a linha inteira
 
         char *token2 = strtok(linha, " ");
         for(int i = 0; token2 != NULL && i < copiaTam; i++) {
