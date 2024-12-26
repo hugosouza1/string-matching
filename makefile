@@ -1,4 +1,4 @@
-run:
+run: build
 	./tp3.exe entrada.txt
 
 build: main.o fila.o leitura.o
