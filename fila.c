@@ -12,25 +12,9 @@ NO *criaNO() {
 }
 
 void destroiNO(NO *no){
-    destroiMatriz(no->original, no->originalTamanho);
-    destroiMatriz(no->plagio, no->plagioTamanho);
+    free(no->original);
+    free(no->plagio);
     free(no);
-}
-
-
-// mudar o local depois
-void alocaMatriz(char **matriz, int tamanho){
-    matriz = (char**)malloc(tamanho * sizeof(char*));
-    for(int i = 0; i < tamanho; i++){
-        matriz[i] = (char*)malloc(2 * sizeof(char));
-    }
-}
-
-void destroiMatriz(char **matriz, int tamanho){
-    for(int i = 0; i < tamanho; i++){
-        free(matriz[i]);
-    }
-    free(matriz);
 }
 
 
@@ -39,6 +23,7 @@ Fila *criaFila(){
     if(fila != NULL){
         fila->inicio = fila->final = NULL;
     }
+    fila->tamanho = 0;
     return fila;
 }
 
@@ -52,7 +37,7 @@ void destroiFila(Fila *fila) {
     free(fila);
 }
 
-int enfileirar(Fila *fila, char **original, char **plagio, int originalTamanho, int plagioTamanho) {
+int enfileirar(Fila *fila, int *original, int * plagio, int  originalTamanho, int plagioTamanho) {
     if(fila == NULL) return 0;
     NO *novo = criaNO();
     novo->original = original;
@@ -65,6 +50,7 @@ int enfileirar(Fila *fila, char **original, char **plagio, int originalTamanho, 
     } else {
         fila->final->prox = novo;
     }   
+    fila->tamanho++;
     fila->final = novo;
     return 1;
 }
@@ -76,22 +62,28 @@ int desenfileirar(Fila *fila) {
     fila->inicio = aux->prox;
     if(fila->final == aux) fila->final = aux->prox;
     destroiNO(aux);
+    fila->tamanho--;
     return 1;
 }
 
-/* void imprimirFila(Fila *fila){
+ void imprimirFila(Fila *fila){
     if (fila == NULL) return;
     NO *aux = fila->inicio;
-    int number = 1;
     while (aux != NULL){
-        printf("%d\n", number); number++;
-        imprimeSudoku(aux->sudoku);
+        printf("Original: ");
+        for(int i = 0; i < aux->originalTamanho; i++){
+            printf("%d ", aux->original[i]);
+        }
+        printf("\nPlagio: ");
+        for(int i = 0; i < aux->plagioTamanho; i++){
+            printf("%d ", aux->plagio[i]);
+        }
+        printf("\n");
         aux = aux->prox;
     }
     printf("\n");
 }
- */
-/* int tamanhoFila(Fila *fila){
-    if(fila == NULL) return -1;
-    return fila->tamanho;
-} */
+
+int estaVaziaFila(Fila *fila){
+    return fila->inicio == NULL;
+}

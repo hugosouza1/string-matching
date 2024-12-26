@@ -5,22 +5,22 @@ typedef struct No {
     int originalTamanho;
     int plagioTamanho;
 
-    char ** original;        
-    char ** plagio;        
+    int * original;        
+    int * plagio;        
     struct No *prox;
 } NO;
 
 typedef struct {
     NO *inicio;
     NO *final;
+    int tamanho;
 } Fila;
 
 Fila *criaFila();
 void destroiFila(Fila *fila);
-int enfileirar(Fila *fila, int** sudoku);
+int enfileirar(Fila *fila, int *original, int * plagio, int  originalTamanho, int plagioTamanho);
 int desenfileirar(Fila *fila);
-int estaVaziaFila(Fila *fila);
 void imprimirFila(Fila *fila);
-int tamanhoFila(Fila *fila);
+int estaVaziaFila(Fila *fila);
 
 #endif
