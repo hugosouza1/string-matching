@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "fila.h"
+#include "leitura.h"
 
 Fila * leitura(char *path){
     FILE  *arq = fopen(path, "r");
@@ -28,8 +25,8 @@ Fila * leitura(char *path){
 
         //--------------------------------------------------//
 
-        int *original = (int*)malloc(originalTam * sizeof(int));
-        int *copia = (int*)malloc(copiaTam * sizeof(int));
+        double *original = (double*)malloc(originalTam * sizeof(double));
+        double *copia = (double*)malloc(copiaTam * sizeof(double));
         tamMax = originalTam * 5;
 
         char *linha = (char*)malloc(tamMax * sizeof(char)); // Tamanho da linha ao quadrado + 1 para o terminador nulo
@@ -38,12 +35,14 @@ Fila * leitura(char *path){
         char *token = strtok(linha, " ");
         for(int i = 0; token != NULL && i < originalTam; i++) {
             if(token[1] == '#'){
-                original[i] = token[0] + 10;
+                double temp = token[0] ;
+                original[i] = temp + 0.5;
             } else if(token[1] == 'b'){
-                original[i] = token[0] - 10;
-            } 
-            original[i] = token[0];
-            
+                double temp = token[0] ;
+                original[i] = temp - 0.5;
+            } else {
+                original[i] = token[0];
+            }
             token = strtok(NULL, " ");
         }
 
@@ -52,11 +51,14 @@ Fila * leitura(char *path){
         char *token2 = strtok(linha, " ");
         for(int i = 0; token2 != NULL && i < copiaTam; i++) {
             if(token2[1] == '#'){
-                copia[i] = token2[0] + 10;
+                double temp = token2[0] ;
+                copia[i] = temp + 0.5;
             } else if(token2[1] == 'b'){
-                copia[i] = token2[0] - 10;
+                double temp = token2[0] ;
+                copia[i] = temp - 0.5;
+            } else {
+                copia[i] = token2[0];
             }
-            copia[i] = token2[0];
             token2 = strtok(NULL, " ");
         }
 

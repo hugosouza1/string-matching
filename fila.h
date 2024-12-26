@@ -5,8 +5,8 @@ typedef struct No {
     int originalTamanho;
     int plagioTamanho;
 
-    int * original;        
-    int * plagio;        
+    double * original;        
+    double * plagio;        
     struct No *prox;
 } NO;
 
@@ -18,7 +18,7 @@ typedef struct {
 
 Fila *criaFila();
 void destroiFila(Fila *fila);
-int enfileirar(Fila *fila, int *original, int * plagio, int  originalTamanho, int plagioTamanho);
+int enfileirar(Fila *fila, double *original, double * plagio, int  originalTamanho, int plagioTamanho);
 int desenfileirar(Fila *fila);
 void imprimirFila(Fila *fila);
 int estaVaziaFila(Fila *fila);
