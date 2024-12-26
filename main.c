@@ -5,13 +5,12 @@
 #include "forcaBruta.h"
 
 int main(int *arg, char *argv[]){
+
     Fila *fila = leitura(argv[1]);
     imprimirFila(fila);
     resolucaoForcaBruta(fila);
-
-
-
-
     destroiFila(fila);
+
+    
     return 0;
 }
