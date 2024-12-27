@@ -16,17 +16,19 @@ void forcaBruta(NO *nota){
 
         for(int j = i, k = 0; j < nota->originalTamanho; j++, k++){
             if(tons(original[j], plagio[k]) != tons(original[i], plagio[0])){
+                //printf("%d-", i);
                 break;
             }
-            if(j == nota->originalTamanho - 1 && k == nota->plagioTamanho - 1){
-                printf("Caso: %d\n", i);
+            if(k == nota->plagioTamanho - 1){
+                printf("S %d\n", i);
+                return;
+            }
+            if(j == nota->originalTamanho - 1){
+                printf("N \n");
                 return;
             }
         }
     }
-     
-
-    printf("Caso %d: Nao ha correspondencia\n", nota->originalTamanho);
 }
 
 
@@ -35,7 +37,6 @@ void resolucaoForcaBruta(Fila *notas){
     while(aux != NULL){
         forcaBruta(aux);
         aux = aux->prox;
-        
     }
         
 }
