@@ -1,5 +1,39 @@
 #include "leitura.h"
 
+void converter(double *original, double *copia, int originalTam, int copiaTam){
+    for(int i = 0; i < originalTam; i++){
+        if(original[i] == 64.5) original[i] = 12;
+        else if(original[i] == 65) original[i] = 1; // A
+        else if(original[i] == 65.5) original[i] = 2; // A#
+        else if(original[i] == 66) original[i] = 3; // B
+        else if(original[i] == 67) original[i] = 4; // C
+        else if(original[i] == 67.5) original[i] = 5; //C#
+        else if(original[i] == 68) original[i] = 6; // D
+        else if(original[i] == 68.5) original[i] = 7; //D#
+        else if(original[i] == 69) original[i] = 8; // E
+        else if(original[i] == 70) original[i] = 9; // F
+        else if(original[i] == 70.5) original[i] = 10; // F#
+        else if(original[i] == 71) original[i] = 11; // G
+        else if(original[i] == 71.5) original[i] = 12; // G#
+    }
+
+    for(int i = 0; i < copiaTam; i++){
+        if(copia[i] == 64.5) copia[i] = 12;
+        else if(copia[i] == 65) copia[i] = 1; // A
+        else if(copia[i] == 65.5) copia[i] = 2; // A#
+        else if(copia[i] == 66) copia[i] = 3; // B
+        else if(copia[i] == 67) copia[i] = 4; // C
+        else if(copia[i] == 67.5) copia[i] = 5; //C#
+        else if(copia[i] == 68) copia[i] = 6; // D
+        else if(copia[i] == 68.5) copia[i] = 7; //D#
+        else if(copia[i] == 69) copia[i] = 8; // E
+        else if(copia[i] == 70) copia[i] = 9; // F
+        else if(copia[i] == 70.5) copia[i] = 10; // F#
+        else if(copia[i] == 71) copia[i] = 11; // G
+        else if(copia[i] == 71.5) copia[i] = 12; // G#
+    }
+}
+
 Fila * leitura(char *path){
     FILE  *arq = fopen(path, "r");
     if(arq == NULL){
@@ -61,7 +95,8 @@ Fila * leitura(char *path){
             }
             token2 = strtok(NULL, " ");
         }
-
+        
+        converter(original, copia, originalTam, copiaTam);
         enfileirar(fila, original, copia, originalTam, copiaTam);
         free(linha);
     }

@@ -1,26 +1,31 @@
 #include "forcaBruta.h"
 
+int tons(double primeiro, double segundo){
+    int diferenca = segundo - primeiro;
+    if(diferenca < 0){
+        diferenca = 12 + diferenca;
+    }
+    return diferenca;
+}
+
 void forcaBruta(NO *nota){
     double *original = nota->original;
     double *plagio = nota->plagio;
+
     for(int i = 0; i < nota->originalTamanho; i++){
-        for(int j = 0; j < nota->plagioTamanho ; j++){
-            int tom = fabs(original[i] - plagio[j]);
-            int quantidade = 0;
-            int local = i+i;
-            for(int k = i+1; k < nota->originalTamanho; k++){
-                for(int l = 0; l < nota->plagioTamanho; l++){
-                    if(((plagio[l] - original[k] + tom) == 0)){
-                        quantidade++;                        
-                    }
-                }
+
+        for(int j = i, k = 0; j < nota->originalTamanho; j++, k++){
+            if(tons(original[j], plagio[k]) != tons(original[i], plagio[0])){
+                break;
             }
-            if(quantidade == nota->plagioTamanho){
-                printf("local: %d = %d\n", local, quantidade);
+            if(j == nota->originalTamanho - 1 && k == nota->plagioTamanho - 1){
+                printf("Caso: %d\n", i);
                 return;
             }
         }
     }
+     
+
     printf("Caso %d: Nao ha correspondencia\n", nota->originalTamanho);
 }
 

@@ -2,7 +2,7 @@ run: build
 	./tp3.exe entrada.txt
 
 build: main.o fila.o leitura.o forcaBruta.o
-	gcc main.o fila.o leitura.o forcaBruta.o -o tp3.exe
+	gcc main.o fila.o leitura.o forcaBruta.o -o tp3.exe -lm
 
 main.o: main.c fila.h
 	gcc -c main.c -o main.o
