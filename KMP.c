@@ -3,7 +3,7 @@
 
 //tabela que calcula o tamanho do prefixo e sufixo e permite que
 //atualize na busca, sem retroceder na busca
-int *criarTabelaLPS(double *padrao, int tamanho){ 
+int *criarTabelaLPS(int *padrao, int tamanho){ 
     int *tabela = (int*)malloc(tamanho * sizeof(int));
     int i = 0, j = 1;
     tabela[0] = 0;
@@ -25,8 +25,8 @@ int *criarTabelaLPS(double *padrao, int tamanho){
 }
 
 void KMP(NO* nota){
-    double *texto = nota->original;
-    double *padrao = nota->plagio;
+    int *texto = nota->original;
+    int *padrao = nota->plagio;
     
     int i = 0, j = 0;
     int k = 0, h = 0;

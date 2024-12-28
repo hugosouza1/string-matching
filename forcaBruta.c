@@ -2,8 +2,8 @@
 
 
 void forcaBruta(NO *nota){
-    double *original = nota->original;
-    double *plagio = nota->plagio;
+    int *original = nota->original;
+    int *plagio = nota->plagio;
 
     for(int i = 0; i < nota->originalTamanho; i++){
 

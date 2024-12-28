@@ -37,7 +37,7 @@ void destroiFila(Fila *fila) {
     free(fila);
 }
 
-int enfileirar(Fila *fila, double *original, double * plagio, int  originalTamanho, int plagioTamanho) {
+int enfileirar(Fila *fila, int *original, int * plagio, int  originalTamanho, int plagioTamanho) {
     if(fila == NULL) return 0;
     NO *novo = criaNO();
     novo->original = original;
@@ -72,11 +72,11 @@ int desenfileirar(Fila *fila) {
     while (aux != NULL){
         printf("Original: ");
         for(int i = 0; i < aux->originalTamanho; i++){
-            printf("%.1lf ", aux->original[i]);
+            printf("%.1d ", aux->original[i]);
         }
         printf("\nPlagio: ");
         for(int i = 0; i < aux->plagioTamanho; i++){
-            printf("%.1lf ", aux->plagio[i]);
+            printf("%.1d ", aux->plagio[i]);
         }
         printf("\n");
         aux = aux->prox;

@@ -1,6 +1,6 @@
 #include "tons.h"
 
-int tons(double primeiro, double segundo){
+int tons(int primeiro, int segundo){
     int diferenca = segundo - primeiro;
     if(diferenca < 0){
         diferenca = 12 + diferenca;
