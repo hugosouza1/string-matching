@@ -51,7 +51,8 @@ void KMP(NO* nota){
             }
         }else{
             if(j != 0){
-                j = tabela[j - 1];
+                j = tabela[j - 1]; //usa a tabela para atualizar o j
+                                   //sem retroceder na busca
             }else{ 
                 i++;
                 k = i;
