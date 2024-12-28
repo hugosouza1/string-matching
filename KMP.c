@@ -1,15 +1,5 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include "./estrutura-de-dados/fila.h"
+#include "KMP.h"
 
-int tonsKMP(double primeiro, double segundo){
-    int diferenca = segundo - primeiro;
-    if(diferenca < 0){
-        diferenca = 12 + diferenca;
-    }
-    return diferenca;
-}
 
 //tabela que calcula o tamanho do prefixo e sufixo e permite que
 //atualize na busca, sem retroceder na busca
@@ -42,7 +32,7 @@ void KMP(NO* nota){
     int k = 0, h = 0;
     int *tabela = criarTabelaLPS(padrao, nota->plagioTamanho);
     while( i < nota->originalTamanho){
-        if(tonsKMP(texto[i], padrao[j]) == tonsKMP(texto[k], padrao[h])){
+        if(tons(texto[i], padrao[j]) == tons(texto[k], padrao[h])){
             i++;
             j++;
             if(j == nota->plagioTamanho){
@@ -62,6 +52,7 @@ void KMP(NO* nota){
     }
     printf("N\n");
 }
+
 void resolucaoKMP(Fila *notas){
     NO *aux = notas->inicio;
     while(aux != NULL){

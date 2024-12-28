@@ -4,8 +4,8 @@
 #include <stdlib.h>
 #include "./estrutura-de-dados/fila.h"
 #include <math.h>
+#include "tons.h"
 
 void resolucaoForcaBruta(Fila *notas);
-int tons(double primeiro, double segundo);
 
 #endif

@@ -9,8 +9,8 @@ run: build
 leak:
 	valgrind --leak-check=full --show-leak-kinds=all ./tp3.exe entrada.txt
 
-build: $(OBJ_DIR)/main.o $(OBJ_DIR)/leitura.o $(OBJ_DIR)/forcaBruta.o $(OBJ_DIR)/KMP.o $(OBJ_DIR)/fila.o $(estrutura-de-dados)
-	gcc $(OBJ_DIR)/main.o $(OBJ_DIR)/leitura.o $(OBJ_DIR)/forcaBruta.o $(OBJ_DIR)/KMP.o $(OBJ_DIR)/fila.o -o ./tp3.exe -lm
+build: $(OBJ_DIR)/main.o $(OBJ_DIR)/leitura.o $(OBJ_DIR)/forcaBruta.o $(OBJ_DIR)/KMP.o $(OBJ_DIR)/fila.o $(OBJ_DIR)/tons.o $(estrutura-de-dados)
+	gcc $(OBJ_DIR)/main.o $(OBJ_DIR)/leitura.o $(OBJ_DIR)/forcaBruta.o $(OBJ_DIR)/KMP.o $(OBJ_DIR)/fila.o $(OBJ_DIR)/tons.o -o ./tp3.exe
 
 $(OBJ_DIR)/main.o: ./main.c | $(OBJ_DIR)
 	gcc -c ./main.c -o $(OBJ_DIR)/main.o
@@ -26,6 +26,9 @@ $(OBJ_DIR)/forcaBruta.o: ./forcaBruta.c ./forcaBruta.h | $(OBJ_DIR)
 
 $(OBJ_DIR)/KMP.o: ./KMP.c ./KMP.h | $(OBJ_DIR)
 	gcc -c ./KMP.c -o $(OBJ_DIR)/KMP.o
+
+$(OBJ_DIR)/tons.o: ./tons.c ./tons.h | $(OBJ_DIR)
+	gcc -c ./tons.c -o $(OBJ_DIR)/tons.o
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
