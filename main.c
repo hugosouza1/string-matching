@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "fila.h"
+#include "./estrutura-de-dados/fila.h"
 #include "leitura.h"
 #include "forcaBruta.h"
+
+double tempoDecorridoCPU = 0;
 
 int main(int *arg, char *argv[]){
 
