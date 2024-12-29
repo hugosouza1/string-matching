@@ -9,7 +9,7 @@ int *criaTabelaBMH(NO *nota) {
         tabela[i] = nota->plagioTamanho; // inicializa a tabela com o tamanho maximo de deslocamento
     }
 
-    for(int i = 0; i < nota->plagioTamanho-1; i++) {
+    for(int i = 0; i < nota->plagioTamanho-1; i++) { // menos 1 para nao alterar o ultimo caractere
         tabela[nota->plagio[i] -1] = nota->plagioTamanho - i - 1; // atualiza a tabela com o deslocamento correto (distancia do caractere ao final da string)
     }
     return tabela;
@@ -32,12 +32,15 @@ void BMH(NO *nota){
 
         if(j < 0){
             printf("S %d\n", i - nota->plagioTamanho + 1); // correcao, pq o i é o indice do final da string
+            free(tabela);
             return;
         }
 
         i += tabela[nota->original[i] - 1]; // desloca o indice de acordo com a tabela
 
     }
+
+    free(tabela);
 
     printf("N\n");
     
