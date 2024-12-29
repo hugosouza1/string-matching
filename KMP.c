@@ -61,5 +61,4 @@ void resolucaoKMP(Fila *notas){
         KMP(aux);
         aux = aux->prox;
     }
-
 }

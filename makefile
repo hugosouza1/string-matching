@@ -1,10 +1,11 @@
 OBJ_DIR = ./objetos
 SRC_DIR = ./estrutura-de-dados
+ARG ?= 5
 
 estrutura-de-dados = $(OBJ_DIR)/fila.o
 
 run: build
-	./tp3.exe entrada.txt
+	./tp3.exe entrada.txt $(ARG)
 
 leak:
 	valgrind --leak-check=full --show-leak-kinds=all ./tp3.exe entrada.txt
