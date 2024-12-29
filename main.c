@@ -10,7 +10,7 @@ double tempoDecorridoCPU = 0;
 int main(int *arg, char *argv[]){
 
     Fila *fila = leitura(argv[1]);
-    imprimirFila(fila);
+    //imprimirFila(fila);
     
     resolucaoForcaBruta(fila);
     printf("\n");
