@@ -3,37 +3,42 @@
 #include "./estrutura-de-dados/fila.h"
 #include "tons.h"
 
-int *criaTabela(NO *nota) {
+int *criaTabelaBMH(NO *nota) {
     int *tabela = (int*)malloc(12 * sizeof(int));
-    for(int i = 0; i < 12; i++) tabela[i] = nota->plagioTamanho;
-    for(int j = 1; j < nota->plagioTamanho; j++) {
-        int tecla = nota->plagio[nota->plagioTamanho-1 - j];
-        if(tabela[tecla-1] > j) tabela[tecla-1] = j ;
+    for(int i = 0; i < 12; i++) {
+        tabela[i] = nota->plagioTamanho; // inicializa a tabela com o tamanho maximo de deslocamento
     }
-    //for(int i = 0; i < 12; i++) printf("%d ", tabela[i]);
-    //printf("\n");
-    
+
+    for(int i = 0; i < nota->plagioTamanho-1; i++) {
+        tabela[nota->plagio[i] -1] = nota->plagioTamanho - i - 1; // atualiza a tabela com o deslocamento correto (distancia do caractere ao final da string)
+    }
     return tabela;
 }
 
 void BMH(NO *nota){
-    int *tabela = criaTabela(nota);
-    int i = 0, j = 0 + nota->plagioTamanho-1;
-    int plagio = 0;
+    int *tabela = criaTabelaBMH(nota);
     
-    while(i + nota->plagioTamanho-1 < nota->originalTamanho) {
-        j = i + nota->plagioTamanho-1;
-        int k = nota->plagioTamanho-1;
-        while((nota->original[j] == nota->plagio[k]) && (j > 0)) {
-            j--; k--;
+    int i = nota->plagioTamanho - 1;  // percorre do fim pro começo
+    while(i < nota->originalTamanho){
+        // k é o indice do original, j é o indice do plagio
+        int k = i; 
+        int j = nota->plagioTamanho - 1; 
+
+        int aux = j, aux2 = k; // auxiliares para guardar os indices do começo da comparação
+        while(j >= 0 && tons(nota->original[k], nota->plagio[j]) == tons(nota->original[aux2], nota->plagio[aux])){
+            j--;
+            k--;
         }
-        if(k <= 0) {
-            printf("S %d\n", i);
+
+        if(j < 0){
+            printf("S %d\n", i - nota->plagioTamanho + 1); // correcao, pq o i é o indice do final da string
             return;
-        } else {
-            i = i + tabela[nota->original[j]-1];
         }
+
+        i += tabela[nota->original[i] - 1]; // desloca o indice de acordo com a tabela
+
     }
+
     printf("N\n");
     
 }
