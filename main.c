@@ -4,6 +4,7 @@
 #include "leitura.h"
 #include "KMP.h"
 #include "forcaBruta.h"
+#include "./BMH.h"
 
 double tempoDecorridoCPU = 0;
 
@@ -15,6 +16,8 @@ int main(int *arg, char *argv[]){
     resolucaoForcaBruta(fila);
     printf("\n");
     resolucaoKMP(fila);
+    printf("\n");
+    resolucaoBMH(fila);
 
     destroiFila(fila);
     

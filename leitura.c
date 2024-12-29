@@ -1,43 +1,40 @@
 #include "leitura.h"
 
-int *converterOriginal(double *original, int originalTam){
-    int *originalConvertida = (int*)malloc(originalTam * sizeof(int));
-    for(int i = 0; i < originalTam; i++){
-        if(original[i] == 64.5)      originalConvertida[i] = 12;
-        else if(original[i] == 65)   originalConvertida[i] = 1; // A
-        else if(original[i] == 65.5) originalConvertida[i] = 2; // A#
-        else if(original[i] == 66)   originalConvertida[i] = 3; // B
-        else if(original[i] == 67)   originalConvertida[i] = 4; // C
-        else if(original[i] == 67.5) originalConvertida[i] = 5; //C#
-        else if(original[i] == 68)   originalConvertida[i] = 6; // D
-        else if(original[i] == 68.5) originalConvertida[i] = 7; //D#
-        else if(original[i] == 69)   originalConvertida[i] = 8; // E
-        else if(original[i] == 70)   originalConvertida[i] = 9; // F
-        else if(original[i] == 70.5) originalConvertida[i] = 10; // F#
-        else if(original[i] == 71)   originalConvertida[i] = 11; // G
-        else if(original[i] == 71.5) originalConvertida[i] = 12; // G#
+int *identificaTecla(double *melodia, int melodiaTamanho){
+    int *teclas = (int*)malloc(melodiaTamanho * sizeof(int));
+    for(int i = 0; i < melodiaTamanho; i++){
+        if(melodia[i] == 64.5)      teclas[i] = 12;
+        else if(melodia[i] == 65)   teclas[i] = 1; // A
+        else if(melodia[i] == 65.5) teclas[i] = 2; // A#
+        else if(melodia[i] == 66)   teclas[i] = 3; // B
+        else if(melodia[i] == 67)   teclas[i] = 4; // C
+        else if(melodia[i] == 67.5) teclas[i] = 5; //C#
+        else if(melodia[i] == 68)   teclas[i] = 6; // D
+        else if(melodia[i] == 68.5) teclas[i] = 7; //D#
+        else if(melodia[i] == 69)   teclas[i] = 8; // E
+        else if(melodia[i] == 70)   teclas[i] = 9; // F
+        else if(melodia[i] == 70.5) teclas[i] = 10; // F#
+        else if(melodia[i] == 71)   teclas[i] = 11; // G
+        else if(melodia[i] == 71.5) teclas[i] = 12; // G#
     }
-    return originalConvertida;
+    return teclas;
 }
 
-int *converterCopia(double *copia, int copiaTam){
-    int *copiaConvertida = (int*)malloc(copiaTam * sizeof(int));
-    for(int i = 0; i < copiaTam; i++){
-        if(copia[i] == 64.5)      copiaConvertida[i] = 12;
-        else if(copia[i] == 65)   copiaConvertida[i] = 1; // A
-        else if(copia[i] == 65.5) copiaConvertida[i] = 2; // A#
-        else if(copia[i] == 66)   copiaConvertida[i] = 3; // B
-        else if(copia[i] == 67)   copiaConvertida[i] = 4; // C
-        else if(copia[i] == 67.5) copiaConvertida[i] = 5; //C#
-        else if(copia[i] == 68)   copiaConvertida[i] = 6; // D
-        else if(copia[i] == 68.5) copiaConvertida[i] = 7; //D#
-        else if(copia[i] == 69)   copiaConvertida[i] = 8; // E
-        else if(copia[i] == 70)   copiaConvertida[i] = 9; // F
-        else if(copia[i] == 70.5) copiaConvertida[i] = 10; // F#
-        else if(copia[i] == 71)   copiaConvertida[i] = 11; // G
-        else if(copia[i] == 71.5) copiaConvertida[i] = 12; // G#
+int *converteMelodia(char *linha, double *array, int arrayTamanho) {
+    char *token = strtok(linha, " ");
+    for(int i = 0; token != NULL && i < arrayTamanho; i++) {
+        if(token[1] == '#'){
+            double temp = token[0] ;
+            array[i] = temp + 0.5;
+        } else if(token[1] == 'b'){
+            double temp = token[0] ;
+            array[i] = temp - 0.5;
+        } else {
+            array[i] = token[0];
+        }
+        token = strtok(NULL, " ");
     }
-    return copiaConvertida;
+    return identificaTecla(array, arrayTamanho);
 }
 
 Fila * leitura(char *path){
@@ -71,39 +68,11 @@ Fila * leitura(char *path){
 
         char *linha = (char*)malloc(tamMax * sizeof(char)); // Tamanho da linha ao quadrado + 1 para o terminador nulo
         fgets(linha, tamMax, arq); // Ler a linha inteira
-
-        char *token = strtok(linha, " ");
-        for(int i = 0; token != NULL && i < originalTam; i++) {
-            if(token[1] == '#'){
-                double temp = token[0] ;
-                original[i] = temp + 0.5;
-            } else if(token[1] == 'b'){
-                double temp = token[0] ;
-                original[i] = temp - 0.5;
-            } else {
-                original[i] = token[0];
-            }
-            token = strtok(NULL, " ");
-        }
+        int *originalConvertida = converteMelodia(linha, original, originalTam);
 
         fgets(linha, tamMax, arq); // Ler a linha inteira
+        int *copiaConvertida = converteMelodia(linha, copia, copiaTam);
 
-        char *token2 = strtok(linha, " ");
-        for(int i = 0; token2 != NULL && i < copiaTam; i++) {
-            if(token2[1] == '#'){
-                double temp = token2[0] ;
-                copia[i] = temp + 0.5;
-            } else if(token2[1] == 'b'){
-                double temp = token2[0] ;
-                copia[i] = temp - 0.5;
-            } else {
-                copia[i] = token2[0];
-            }
-            token2 = strtok(NULL, " ");
-        }
-        
-        int *originalConvertida = converterOriginal(original, originalTam);
-        int *copiaConvertida = converterCopia(copia, copiaTam);
         free(original); free(copia);
         enfileirar(fila, originalConvertida, copiaConvertida, originalTam, copiaTam);
         free(linha);
