@@ -16,6 +16,7 @@ int main(int *arg, char *argv[]){
     resolucaoForcaBruta(fila);
     printf("\n");
     resolucaoKMP(fila);
+    printf("\n");
     resolucaoBMH(fila);
 
     destroiFila(fila);

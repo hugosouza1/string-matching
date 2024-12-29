@@ -16,4 +16,7 @@ G G B B
 3 2
 A B C#
 E F 
+3 2
+E F C#
+E F
 0 0
