@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "./estrutura-de-dados/fila.h"
-#include "tons.h"
+#include "BMH.h"
 
 int *criaTabelaBMH(NO *nota) {
     int *tabela = (int*)malloc(12 * sizeof(int));
