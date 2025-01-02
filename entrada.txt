@@ -19,4 +19,7 @@ E F
 3 2
 E F C#
 E F
+10 2
+C A B B C A B B C A
+B B
 0 0

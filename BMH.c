@@ -14,9 +14,9 @@ int *criaTabelaBMH(NO *nota) {
 
 void BMH(NO *nota){
     int *tabela = criaTabelaBMH(nota);
-    
-    int i = nota->plagioTamanho - 1;  // percorre do fim pro começo
-    while(i < nota->originalTamanho){
+    int i = nota->plagioTamanho - 1;  // começa a partir do fim da copia (plagio)
+
+    while(i < nota->originalTamanho && i >= 0){
         // k é o indice do original, j é o indice do plagio
         int k = i; 
         int j = nota->plagioTamanho - 1; 
@@ -40,7 +40,7 @@ void BMH(NO *nota){
     free(tabela);
 
     printf("N\n");
-    
+    return;
 }
 
 void resolucaoBMH(Fila *notas) {
