@@ -12,7 +12,7 @@ double tempoDecorridoCPU = 0;
 int main(int *arg, char *argv[]){
 
     Fila *fila = leitura(argv[1]);
-    imprimirFila(fila);
+    //imprimirFila(fila);
     int x = atoi(argv[2]);
     switch(x){
         case 1:
