@@ -2,16 +2,17 @@
 #include <stdlib.h>
 #include "./estrutura-de-dados/fila.h"
 #include "leitura.h"
-#include "KMP.h"
 #include "forcaBruta.h"
+#include "KMP.h"
 #include "./BMH.h"
+#include "./shiftAnd.h"
 
 double tempoDecorridoCPU = 0;
 
 int main(int *arg, char *argv[]){
 
     Fila *fila = leitura(argv[1]);
-    //imprimirFila(fila);
+    imprimirFila(fila);
     int x = atoi(argv[2]);
     switch(x){
         case 1:
@@ -27,10 +28,11 @@ int main(int *arg, char *argv[]){
             resolucaoBMH(fila);
             break;
         case 4:
-            //resolucaoShiftAnd(fila);
+            printf("ShiftAnd:\n");
+            resolucaoShiftAnd(fila);
             break;
         case 5:
-            printf("Forca Bruta:\n");
+            printf("Forca Bruta:\n"); 
             resolucaoForcaBruta(fila);
             printf("\n");
             printf("KMP:\n");
@@ -38,9 +40,9 @@ int main(int *arg, char *argv[]){
             printf("\n");
             printf("BMH:\n");
             resolucaoBMH(fila);
-            //printf("\n");
-            //printf("ShiftAnd:\n");
-            //resolucaoShiftAnd(fila);
+            printf("\n");
+            printf("ShiftAnd:\n");
+            resolucaoShiftAnd(fila);
             break;
     }
 

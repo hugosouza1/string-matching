@@ -3,7 +3,7 @@
 int *identificaTecla(double *melodia, int melodiaTamanho){
     int *teclas = (int*)malloc(melodiaTamanho * sizeof(int));
     for(int i = 0; i < melodiaTamanho; i++){
-        if(melodia[i] == 64.5)      teclas[i] = 12;
+        if(melodia[i] == 64.5)      teclas[i] = 12; //Ab
         else if(melodia[i] == 65)   teclas[i] = 1; // A
         else if(melodia[i] == 65.5) teclas[i] = 2; // A#
         else if(melodia[i] == 66)   teclas[i] = 3; // B
@@ -62,20 +62,19 @@ Fila * leitura(char *path){
 
         //--------------------------------------------------//
 
+        tamMax = originalTam * 5;
+        char *linha = (char*)malloc(tamMax * sizeof(char)); // Tamanho da linha ao quadrado + 1 para o terminador nulo
         double *original = (double*)malloc(originalTam * sizeof(double));
         double *copia = (double*)malloc(copiaTam * sizeof(double));
-        tamMax = originalTam * 5;
 
-        char *linha = (char*)malloc(tamMax * sizeof(char)); // Tamanho da linha ao quadrado + 1 para o terminador nulo
         fgets(linha, tamMax, arq); // Ler a linha inteira
         int *originalConvertida = converteMelodia(linha, original, originalTam);
 
         fgets(linha, tamMax, arq); // Ler a linha inteira
         int *copiaConvertida = converteMelodia(linha, copia, copiaTam);
 
-        free(original); free(copia);
         enfileirar(fila, originalConvertida, copiaConvertida, originalTam, copiaTam);
-        free(linha);
+        free(linha); free(original); free(copia);
     }
 
     fclose(arq);
