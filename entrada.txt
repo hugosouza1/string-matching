@@ -22,4 +22,7 @@ E F
 10 2
 C A B B C A B B C A
 B B
+8 8
+A A A A A A B C
+A A A A A A B C 
 0 0
