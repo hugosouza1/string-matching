@@ -7,56 +7,39 @@ void printBits(int num, int tamanho) {
     printf("\n");
 }
 
-int **criarMascara(NO *nota) {
-    int tamanhoAlfabeto = 12;
-    int **mascara = (int**)malloc(tamanhoAlfabeto * sizeof(int*));
+int *criarMascara(NO *nota) {
+    int tamanhoAlfabeto = 13;
+    int *mascara = (int*)malloc(tamanhoAlfabeto * sizeof(int));
     for(int i = 0; i < tamanhoAlfabeto; i++){
-        mascara[i] = (int*)malloc(nota->plagioTamanho * sizeof(int));
-        for(int j = 0; j < nota->plagioTamanho; j++) {
-            mascara[i][j] = (nota->plagio[j] == i+1) ? 1 : 0;
-        }
+        mascara[i] = 0;
+    }
+    for(int i = 0; i < nota->plagioTamanho; i++){
+        mascara[nota->plagio[i]] = mascara[nota->plagio[i]] | (1 << i);
     }
     return mascara;
-}
-
-void imprimeMascara(int **mascara, NO *nota) {
-    if(mascara == NULL) return;
-    for(int i = 0; i < 12; i++) {
-        for(int j = 0; j < nota->plagioTamanho; j++) {
-            printf("%d ", mascara[i][j]);
-        }
-        printf("\n");
-    }
 }
 
 void shiftAnd(NO *nota){
     int *original = nota->original;
     int *plagio = nota->plagio;
-    for(int i = 0; i < nota->plagioTamanho; i++) {
-        printf("%d ", nota->plagio[i]);
-    }
-    printf("\n");
-    int **mascara = criarMascara(nota);
-    imprimeMascara(mascara, nota);
-
-/*  for(int i = 0; i < 13; i++) {
+    int *mascara = criarMascara(nota);
+    /*
+  for(int i = 0; i < 13; i++) {
         printf("mascara[%d]: ", i);
         printBits(mascara[i], nota->plagioTamanho); 
     }
-*/
-/*
+    */
+
     int r = 0;
     for(int i = 0; i < nota->originalTamanho; i++){
         r = ((r >> 1) | (1 << (nota->plagioTamanho - 1))) & mascara[original[i]];
-*/
 /*
         printf("i: %d, original[i]: %d, r: ", i, original[i]);
         printBits(r, nota->plagioTamanho);
         printf("mascara[original[i]]: ");
         printBits(mascara[original[i]], nota->plagioTamanho);
         printf("\n");
-*/
-/*
+*/      
         if((r & 1) == 1){
             printf("Plagio encontrado na posicao %d\n", i - nota->plagioTamanho + 1);
             free(mascara);
@@ -64,8 +47,6 @@ void shiftAnd(NO *nota){
         }
     }
     printf("Plagio nao encontrado\n");
-*/
-    for(int i = 0; i < 12; i++) free(mascara[i]);
     free(mascara);
 }
 
