@@ -14,7 +14,7 @@ int *criarMascara(NO *nota) {
         mascara[i] = 0;
     }
     for(int i = 0; i < nota->plagioTamanho; i++){
-        mascara[nota->plagio[i]] = mascara[nota->plagio[i]] | (1 << i);
+        mascara[nota->plagio[i]] = mascara[nota->plagio[i]] | ((1 << (nota->plagioTamanho - 1)) >> i);
     }
     return mascara;
 }
@@ -29,7 +29,6 @@ void shiftAnd(NO *nota){
         printBits(mascara[i], nota->plagioTamanho); 
     }
     */
-
     int r = 0;
     for(int i = 0; i < nota->originalTamanho; i++){
         r = ((r >> 1) | (1 << (nota->plagioTamanho - 1))) & mascara[original[i]];
