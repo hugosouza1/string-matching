@@ -40,12 +40,12 @@ void shiftAnd(NO *nota){
         printf("\n");
 */      
         if((r & 1) == 1){
-            printf("Plagio encontrado na posicao %d\n", i - nota->plagioTamanho + 1);
+            printf("S %d\n", i - nota->plagioTamanho + 1);
             free(mascara);
             return;
         }
     }
-    printf("Plagio nao encontrado\n");
+    printf("N\n");
     free(mascara);
 }
 
