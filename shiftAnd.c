@@ -23,23 +23,32 @@ void shiftAnd(NO *nota){
     int *original = nota->original;
     int *plagio = nota->plagio;
     int *mascara = criarMascara(nota);
-    /*
+/*  
   for(int i = 0; i < 13; i++) {
         printf("mascara[%d]: ", i);
         printBits(mascara[i], nota->plagioTamanho); 
     }
-    */
+*/
     int r = 0;
+
     for(int i = 0; i < nota->originalTamanho; i++){
-        r = ((r >> 1) | (1 << (nota->plagioTamanho - 1))) & mascara[original[i]];
-/*
+        
+        int comeco = tonsShifAnd(original[i], plagio[0]);
+
+
+        r = ((r >> 1) | (1 << (nota->plagioTamanho - 1))) & mascara[original[comeco]];
+        
+
+/*  
         printf("i: %d, original[i]: %d, r: ", i, original[i]);
         printBits(r, nota->plagioTamanho);
         printf("mascara[original[i]]: ");
         printBits(mascara[original[i]], nota->plagioTamanho);
         printf("\n");
-*/      
-        if((r & 1) == 1){
+ */
+
+        if((r & 1) != 0){
+
             printf("S %d\n", i - nota->plagioTamanho + 1);
             free(mascara);
             return;
