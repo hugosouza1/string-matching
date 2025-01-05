@@ -35,9 +35,6 @@ void shiftAnd(NO *nota){
             r[k] = ((r[k] >> 1) | (1 << (nota->plagioTamanho - 1))) & mascara[original[i]];
         }
         
-        //print nao sei oq 
-        //   printf("i: %d, original[i]: %d, r: ", diferenca, original[diferenca]);printBits(r, nota->plagioTamanho);printf("mascara[original[i]]: ");printBits(mascara[original[diferenca]], nota->plagioTamanho);printf("\n");
-
         for(int k = 0; k < 12; k++){
             if((r[k] & 1) != 0){
                 printf("S %d\n", i - nota->plagioTamanho + 1);

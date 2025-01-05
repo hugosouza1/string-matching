@@ -7,12 +7,3 @@ int tons(int primeiro, int segundo){
     }
     return diferenca;
 }
-
-// soma 1 no resultado
-int tonsShifAnd(int primeiro, int segundo){
-    int diferenca = segundo - primeiro  ;
-    if(diferenca < 0){
-        diferenca = 12 + diferenca;
-    }
-    return diferenca;
-}
