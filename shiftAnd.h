@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "./estrutura-de-dados/fila.h"
 #include "./tons.h"
+#include <math.h>
 
 void resolucaoShiftAnd(Fila *notas);
 

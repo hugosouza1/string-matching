@@ -23,35 +23,29 @@ void shiftAnd(NO *nota){
     int *original = nota->original;
     int *plagio = nota->plagio;
     int *mascara = criarMascara(nota);
-/*  
-  for(int i = 0; i < 13; i++) {
-        printf("mascara[%d]: ", i);
-        printBits(mascara[i], nota->plagioTamanho); 
-    }
-*/
-    int r = 0;
+    
+    //print mascara
+    //for(int i = 0; i < 13; i++) {printf("mascara[%d]: ", i);printBits(mascara[i], nota->plagioTamanho);}
 
-    for(int i = 0; i < nota->originalTamanho; i++){
+    int *r = (int*)malloc(12 * sizeof(int));
+
+    for(int i = 0, j = 0; i < nota->originalTamanho; i++, j++){
+
+        for(int k = 0; k < 12; k++){
+            int h = i + k;
+            h = h < 12 ? h : h - 12;
+            r[k] = ((r[k] >> 1) | (1 << (nota->plagioTamanho - 1))) & mascara[original[i]];
+        }
         
-        int comeco = tonsShifAnd(original[i], plagio[0]);
+        //print nao sei oq 
+        //   printf("i: %d, original[i]: %d, r: ", diferenca, original[diferenca]);printBits(r, nota->plagioTamanho);printf("mascara[original[i]]: ");printBits(mascara[original[diferenca]], nota->plagioTamanho);printf("\n");
 
-
-        r = ((r >> 1) | (1 << (nota->plagioTamanho - 1))) & mascara[original[comeco]];
-        
-
-/*  
-        printf("i: %d, original[i]: %d, r: ", i, original[i]);
-        printBits(r, nota->plagioTamanho);
-        printf("mascara[original[i]]: ");
-        printBits(mascara[original[i]], nota->plagioTamanho);
-        printf("\n");
- */
-
-        if((r & 1) != 0){
-
-            printf("S %d\n", i - nota->plagioTamanho + 1);
-            free(mascara);
-            return;
+        for(int k = 0; k < 12; k++){
+            if((r[k] & 1) != 0){
+                printf("S %d\n", i - nota->plagioTamanho + 1);
+                free(mascara);
+                return;
+            }
         }
     }
     printf("N\n");

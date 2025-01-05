@@ -11,7 +11,7 @@ leak: build
 	valgrind --leak-check=full --show-leak-kinds=all ./tp3.exe entrada.txt $(metodo)
 
 build: $(OBJ_DIR)/main.o $(OBJ_DIR)/leitura.o $(OBJ_DIR)/forcaBruta.o $(OBJ_DIR)/KMP.o $(OBJ_DIR)/fila.o $(OBJ_DIR)/tons.o $(OBJ_DIR)/BMH.o $(OBJ_DIR)/shiftAnd.o $(estrutura-de-dados)
-	gcc $(OBJ_DIR)/main.o $(OBJ_DIR)/leitura.o $(OBJ_DIR)/forcaBruta.o $(OBJ_DIR)/KMP.o $(OBJ_DIR)/fila.o $(OBJ_DIR)/tons.o $(OBJ_DIR)/BMH.o $(OBJ_DIR)/shiftAnd.o -o ./tp3.exe
+	gcc $(OBJ_DIR)/main.o $(OBJ_DIR)/leitura.o $(OBJ_DIR)/forcaBruta.o $(OBJ_DIR)/KMP.o $(OBJ_DIR)/fila.o $(OBJ_DIR)/tons.o $(OBJ_DIR)/BMH.o $(OBJ_DIR)/shiftAnd.o -o ./tp3.exe -lm
 
 $(OBJ_DIR)/main.o: ./main.c | $(OBJ_DIR)
 	gcc -c ./main.c -o $(OBJ_DIR)/main.o
