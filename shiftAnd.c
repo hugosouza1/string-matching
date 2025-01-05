@@ -24,10 +24,8 @@ void shiftAnd(NO *nota){
     int *plagio = nota->plagio;
     int *mascara = criarMascara(nota);
     
-    //print mascara
-    //for(int i = 0; i < 13; i++) {printf("mascara[%d]: ", i);printBits(mascara[i], nota->plagioTamanho);}
-
     int *r = (int*)malloc(12 * sizeof(int));
+    for(int i = 0; i < 12; i++)  r[i] = 0;
 
     for(int i = 0, j = 0; i < nota->originalTamanho; i++, j++){
 
