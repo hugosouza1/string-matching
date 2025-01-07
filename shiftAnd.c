@@ -40,23 +40,16 @@ void shiftAnd(NO *nota){
     int *original = nota->original;
     int *plagio = nota->plagio;
     int *copiaPlagio = copiaVetor(plagio, nota->plagioTamanho);
-
     int **mascaras = (int**) malloc(sizeof(int*) * 13);
 
     for(int i = 0; i < 13; i++){
         mascaras[i] = criarMascara(copiaPlagio, nota->plagioTamanho);
         incrementarVetor(copiaPlagio, nota->plagioTamanho);
     }
-
     free(copiaPlagio);
     
     int *r = (int*) malloc (sizeof(int) * 13);
-
     for(int i = 0; i < 13; i++) r[i] = 0;
-
-/*     for(int i = 0; i < 12; i++){
-        printBits(mascara[i], 12);
-    } */
 
     for(int i = 0; i < nota->originalTamanho; i++) {
         for(int j = 0; j < 13; j++) {
