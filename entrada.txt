@@ -28,4 +28,7 @@ A B C
 3 3 
 A A# B
 E F F#
+7 3
+A B C D E F G 
+E F G
 0 0

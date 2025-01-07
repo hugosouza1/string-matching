@@ -7,70 +7,80 @@ void printBits(int num, int tamanho) {
     printf("\n");
 }
 
-int *criarMascara(NO *nota) {
+int *criarMascara(int *padrao, int padraoTamanho) {
     int tamanhoAlfabeto = 13;
     int *mascara = (int*)malloc(tamanhoAlfabeto * sizeof(int));
     for(int i = 0; i < tamanhoAlfabeto; i++){
         mascara[i] = 0;
     }
-    for(int i = 0; i < nota->plagioTamanho; i++){
-        mascara[nota->plagio[i]] = mascara[nota->plagio[i]] | ((1 << (nota->plagioTamanho - 1)) >> i);
+    for(int i = 0; i < padraoTamanho; i++){
+        mascara[padrao[i]] = mascara[padrao[i]] | ((1 << (padraoTamanho - 1)) >> i);
     }
     return mascara;
+}
+
+int *copiaVetor(int *vet, int tam){
+    int *novo = (int*) malloc (sizeof(int) * tam);
+    for(int i = 0; i < tam; i++){
+        novo[i] = vet[i];
+    }
+    return novo;
+}
+
+void incrementarVetor(int *vetor, int tamanho) {
+    for (int i = 0; i < tamanho; i++) {
+        vetor[i]++;
+        if (vetor[i] > 12) {
+            vetor[i] = 1; // Ajusta para o intervalo de 1 a 12
+        }
+    }
 }
 
 void shiftAnd(NO *nota){
     int *original = nota->original;
     int *plagio = nota->plagio;
-    int *mascara = criarMascara(nota);
-    /*
-  for(int i = 0; i < 13; i++) {
-        printf("mascara[%d]: ", i);
-        printBits(mascara[i], nota->plagioTamanho); 
+    int *copiaPlagio = copiaVetor(plagio, nota->plagioTamanho);
+
+    int **mascaras = (int**) malloc(sizeof(int*) * 13);
+
+    for(int i = 0; i < 13; i++){
+        mascaras[i] = criarMascara(copiaPlagio, nota->plagioTamanho);
+        incrementarVetor(copiaPlagio, nota->plagioTamanho);
     }
-    */
-    /*
+
+    free(copiaPlagio);
+    
+    int *r = (int*) malloc (sizeof(int) * 13);
+
+    for(int i = 0; i < 13; i++) r[i] = 0;
+
+/*     for(int i = 0; i < 12; i++){
+        printBits(mascara[i], 12);
+    } */
+
     for(int i = 0; i < nota->originalTamanho; i++) {
-        printf("%d ", original[i]);
-    }
-    printf("\n");
-    for(int i = 0; i < nota->plagioTamanho; i++) {
-        printf("%d ", plagio[i]);
-    }
-    printf("\n");
-    */
-    int r = 0;
-    int tomAtual, tomAnterior = 0, k = 0;
-    for(int i = 0; i < nota->originalTamanho; i++){
-        tomAtual = tons(original[i],plagio[k]);
-        if(i == 1 && tomAnterior != tomAtual) {
-            k = 0;
-            tomAtual = tons(original[i], plagio[k]);
+        for(int j = 0; j < 13; j++) {
+
+            r[j] = ((r[j] >> 1) | (1 << (nota->plagioTamanho - 1))) & mascaras[j][original[i]];
+            
+            if(r[j] & 1 != 0) {
+                printf("S %d\n", i - nota->plagioTamanho + 1);
+                for(int k = 0; k < 13; k++) {
+                    free(mascaras[k]);
+                }
+                free(mascaras);
+                free(r);
+                return;
+            }
         }
-        if(tomAtual != tomAnterior) {
-            k = 0; r = 0;
-        } else {
-            k++;
-        }
-        //printf("%d %d - %d\n", tomAnterior, tomAtual, r);
-        r = ((r >> 1) | (1 << (nota->plagioTamanho - 1))) & mascara[(original[i] + tomAtual) % 12];
-/*
-        printf("i: %d, original[i]: %d, r: ", i, original[i]);
-        printBits(r, nota->plagioTamanho);
-        printf("mascara[original[i]]: ");
-        printBits(mascara[original[i]], nota->plagioTamanho);
-        printf("\n");
-*/      
-        if((r & 1) == 1){
-            printf("Plagio encontrado na posicao %d\n", i - nota->plagioTamanho + 1);
-            free(mascara);
-            return;
-        }
-        tomAnterior = tomAtual;
-        if(i == 0 && plagio[0] != original[0]) k++;
     }
-    printf("Plagio nao encontrado\n");
-    free(mascara);
+
+    printf("N\n");
+    for(int i = 0; i < 13; i++) {
+        free(mascaras[i]);
+    }
+    free(mascaras);
+    free(r);
 }
 
 void resolucaoShiftAnd(Fila *notas) {
