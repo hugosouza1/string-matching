@@ -37,4 +37,13 @@ C# Gb Ab
 10 7
 A E F G A B A C D D 
 A# C D E D F G 
+8 4 
+A# F A G F D Ab E
+D# C F# D
+13 13
+Ab A A# B C C# D D# E F F# G G#
+A A# B C C# D D# E F F# G G# A
+8 4
+B B B C B C B C 
+E F E F
 0 0
