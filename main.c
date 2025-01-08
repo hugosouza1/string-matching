@@ -31,7 +31,9 @@ int main(int *arg, char *argv[]){
             printf("ShiftAnd:\n");
             resolucaoShiftAnd(fila);
             break;
-        case 5:
+
+            
+        case 5:  //teste
             printf("Forca Bruta:\n"); 
             resolucaoForcaBruta(fila);
             printf("\n");
