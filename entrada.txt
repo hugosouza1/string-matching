@@ -31,4 +31,10 @@ E F F#
 7 3
 A B C D E F G 
 E F G
+5 3
+A D E B G
+C# Gb Ab
+10 7
+A E F G A B A C D D 
+A# C D E D F G 
 0 0

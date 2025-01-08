@@ -5,7 +5,7 @@ int *identificaTecla(double *melodia, int melodiaTamanho){
     for(int i = 0; i < melodiaTamanho; i++){
         if(melodia[i] == 64.8)                             teclas[i] = 12; //Ab
         else if(melodia[i] == 65)                          teclas[i] = 1; // A
-        else if(melodia[i] == 65.2 || melodia[i] == 65.8)                teclas[i] = 2; // A#
+        else if(melodia[i] == 65.2 || melodia[i] == 65.8)  teclas[i] = 2; // A#
         else if(melodia[i] == 66   || melodia[i] == 66.8)  teclas[i] = 3; // B
         else if(melodia[i] == 67   || melodia[i] == 66.2)  teclas[i] = 4; // C
         else if(melodia[i] == 67.2 || melodia[i] == 67.8)  teclas[i] = 5; //C#
