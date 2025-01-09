@@ -15,7 +15,7 @@ int *criaTabelaBMH(NO *nota) {
 int tomBMH(int valor, int tom) {
     valor += tom;
     if(valor > 12) {
-        valor -= 12;
+        valor %= 12;
     }
     return valor;
 }
