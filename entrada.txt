@@ -64,4 +64,7 @@ E G C
 30 20
 A A A A A A A A A C A A A A A A A A A A A A A A A A A A A A 
 B B B B B B B B B B B B B B B B B B B B   
+7 3
+A B B C E F G
+A B C
 0 0
