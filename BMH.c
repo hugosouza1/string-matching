@@ -12,6 +12,14 @@ int *criaTabelaBMH(NO *nota) {
     return tabela;
 }
 
+int tomBMH(int valor, int tom) {
+    valor += tom;
+    if(valor > 12) {
+        valor -= 12;
+    }
+    return valor;
+}
+
 void BMH(NO *nota){
     int *tabela = criaTabelaBMH(nota);
     int i = nota->plagioTamanho - 1;  // começa a partir do fim da copia (plagio)
@@ -22,7 +30,7 @@ void BMH(NO *nota){
         int j = nota->plagioTamanho - 1; 
 
         int aux = j, aux2 = k; // auxiliares para guardar os indices do começo da comparação
-        while(j >= 0 && tons(nota->original[k], nota->plagio[j]) == tons(nota->original[aux2], nota->plagio[aux])){
+        while(j >= 0 && (tons(nota->original[k], nota->plagio[j]) == tons(nota->original[aux2], nota->plagio[aux]))){
             j--;
             k--;
         }
@@ -33,7 +41,7 @@ void BMH(NO *nota){
             return;
         }
 
-        i += tabela[nota->original[i] - 1]; // desloca o indice de acordo com a tabela
+        i += tabela[tomBMH(nota->original[i], tons(nota->original[i], nota->plagio[j])) - 1]; // desloca o indice de acordo com a tabela
 
     }
 
