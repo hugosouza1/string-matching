@@ -31,6 +31,8 @@ void KMP(NO* nota){
     int i = 0, j = 0;
     int k = 0, h = 0; // indices para auxiliar na busca
     int *tabela = criarTabelaLPS(padrao, nota->plagioTamanho);
+    for(int i = 0; i < nota->plagioTamanho; i++) printf("%d ", tabela[i]);
+    printf("\n");
     while( i < nota->originalTamanho){
         if(tons(texto[i], padrao[j]) == tons(texto[k], padrao[h])){
             i++;
