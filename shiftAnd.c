@@ -38,13 +38,7 @@ void shiftAnd(NO *nota){
     for(int i = 0; i < nota->originalTamanho; i++){
         if(tomShift(original[i], tom) != plagio[k]) {
             if(r != 0 && i > 0) {
-                if(original[i] == original[i-1]) {
-                    int prefixoValido = 1;
-                    for(int j = 0; j < k-1; j++) {
-                        if(plagio[j] != plagio[j+1]) prefixoValido = 0;
-                    }
-                    if(prefixoValido) continue;
-                }
+                if(original[i] == original[i-1] && tomShift(original[i],tom) == plagio[0]) continue;
             }
             k = r = 0;
             tom = tons(original[i], plagio[k]);
