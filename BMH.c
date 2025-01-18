@@ -1,5 +1,9 @@
 #include "BMH.h"
 
+typedef struct Pair {
+    int esquerda, direita;
+} Pair;
+
 int *criaTabelaBMH(NO *nota) {
     int *tabela = (int*)malloc(12 * sizeof(int));
     for(int i = 0; i < 12; i++) {
@@ -20,17 +24,28 @@ int tomBMH(int valor, int tom) {
     return valor;
 }
 
+int tomShiftBMH(int valor, int tom) {
+    valor += tom;
+    if(valor > 12) {
+        valor -= 12;
+    }
+    return valor;
+}
+
 void BMH(NO *nota){
     int *tabela = criaTabelaBMH(nota);
     int i = nota->plagioTamanho - 1;  // começa a partir do fim da copia (plagio)
+    int tom = tons(nota->original[i], nota->plagio[nota->plagioTamanho - 1]);
+    //printf("Pulos: ");
 
     while(i < nota->originalTamanho && i >= 0){
+        //printf("%d ", i);
         // k é o indice do original, j é o indice do plagio
         int k = i; 
         int j = nota->plagioTamanho - 1; 
 
         int aux = j, aux2 = k; // auxiliares para guardar os indices do começo da comparação
-        while(j >= 0 && (tons(nota->original[k], nota->plagio[j]) == tons(nota->original[aux2], nota->plagio[aux]))){
+        while(j >= 0 && (tomShiftBMH(nota->original[k], tom) == nota->plagio[j])){
             j--;
             k--;
         }
@@ -41,10 +56,22 @@ void BMH(NO *nota){
             return;
         }
 
-        i += tabela[tomBMH(nota->original[i], tons(nota->original[i], nota->plagio[j])) - 1]; // desloca o indice de acordo com a tabela
-
+        int m = 0, shift = -1;
+        while(m < nota->plagioTamanho - 1) {
+            int diferencaTom = tons(nota->original[i], nota->plagio[m]);
+            if(tomShiftBMH(nota->original[i+1], diferencaTom) == nota->plagio[m+1]) {
+                shift = nota->plagio[m] - 1;
+            }
+            m++;
+        }
+        //printf("shift: %d\n", shift);
+        if(shift != -1) {
+            i += tabela[shift];
+        } else {
+            i += tabela[nota->original[i] - 1]; // desloca o indice de acordo com a tabela
+        }
+        tom = tons(nota->original[i], nota->plagio[nota->plagioTamanho - 1]);
     }
-
     free(tabela);
 
     printf("N\n");
