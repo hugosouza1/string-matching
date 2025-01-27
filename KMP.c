@@ -31,8 +31,9 @@ void KMP(NO* nota){
     int i = 0, j = 0;
     int k = 0, h = 0; // indices para auxiliar na busca
     int *tabela = criarTabelaLPS(padrao, nota->plagioTamanho);
+    int tom = tons(texto[0], padrao[0]);
     while( i < nota->originalTamanho){
-        if(tons(texto[i], padrao[j]) == tons(texto[k], padrao[h])){
+        if(tomShift(texto[i], tom) == padrao[j]){
             i++;
             j++;
             if(j == nota->plagioTamanho){
@@ -41,13 +42,17 @@ void KMP(NO* nota){
                 return;
             }
         }else{
-            if(j != 0){
-                j = tabela[j - 1]; //usa a tabela para atualizar o j
-                                   //sem retroceder na busca
-            }else{ 
+            if((i < nota->originalTamanho)) {
+                if(j != 0){
+                    j = tabela[j - 1]; //usa a tabela para atualizar o j
+                                       //sem retroceder na busca
+                    if(j == 0) tom = tons(texto[i], padrao[j]);
+                }else{ 
+                    i++;     
+                    tom = tons(texto[i], padrao[j]);
+                }
+            } else {
                 i++;
-                k = i;
-                h = j;            
             }
         }
     }

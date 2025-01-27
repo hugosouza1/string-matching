@@ -7,3 +7,11 @@ int tons(int primeiro, int segundo){
     }
     return diferenca;
 }
+
+int tomShift(int nota, int tom) {
+    nota += tom;
+    if(nota > 12) {
+        nota -= 12;
+    }
+    return nota;
+}

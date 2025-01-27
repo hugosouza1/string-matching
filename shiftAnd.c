@@ -7,14 +7,6 @@ void printBits(int num, int tamanho) {
     printf("\n");
 }
 
-int tomShift(int valor, int tom) {
-    valor += tom;
-    if(valor > 12) {
-        valor -= 12;
-    }
-    return valor;
-}
-
 int *criarMascara(NO *nota) {
     int tamanhoAlfabeto = 12;
     int *mascara = (int*)malloc(tamanhoAlfabeto * sizeof(int));

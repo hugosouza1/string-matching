@@ -30,7 +30,7 @@ A A# B
 E F F#
 7 3
 A B C D E F G 
-E F G
+E F G 
 5 3
 A D E B G
 C# Gb Ab
@@ -58,7 +58,7 @@ E E F F A
 10 5
 D C E A G D C E A D
 C A# D G C
-7 3
+8 3
 A A A B D G A A 
 E G C
 30 20
