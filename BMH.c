@@ -36,7 +36,6 @@ void BMH(NO *nota){
         int k = i; 
         int j = nota->plagioTamanho - 1; 
 
-        int aux = j, aux2 = k; // auxiliares para guardar os indices do começo da comparação
         while(j >= 0 && (tomShift(nota->original[k], tom) == nota->plagio[j])){
             j--;
             k--;
@@ -49,15 +48,16 @@ void BMH(NO *nota){
         }
 
         int m = 0, shift = -1;
-        while(m < nota->plagioTamanho - 1) {
+        while(m < nota->plagioTamanho - 1 && i + 1 < nota->originalTamanho){
             int diferencaTom = tons(nota->original[i], nota->plagio[m]);
-            if(tomShift(nota->original[i+1], diferencaTom) == nota->plagio[m+1]) {
-                shift = nota->plagio[m] - 1;
-            }
+                if(tomShift(nota->original[i+1], diferencaTom) == nota->plagio[m+1]){
+                    shift = nota->plagio[m] - 1;
+                }
             m++;
         }
+
         //printf("shift: %d\n", shift);
-        if(shift != -1) {
+        if(shift != -1){
             i += tabela[shift];
         } else {
             i += tabela[nota->original[i] - 1]; // desloca o indice de acordo com a tabela
