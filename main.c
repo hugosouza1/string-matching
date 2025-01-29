@@ -6,6 +6,7 @@
 #include "KMP.h"
 #include "./BMH.h"
 #include "./shiftAnd.h"
+#include <time.h>
 
 double tempoDecorridoCPU = 0;
 
@@ -56,7 +57,7 @@ int main(int *arg, char *argv[]){
 }
 
 
-void geraAruivo(){
+int geraAruivo(){
    srand(time(NULL));
 
     FILE *teste = fopen("teste.txt", "w");
