@@ -67,4 +67,19 @@ B B B B B B B B B B B B B B B B B B B B
 7 3
 A B B C E F G
 A B C
+7 3
+A B B C E F G
+A B C
+50 5
+A Bb C# D E F# G Ab B C D# E F G# A B C D# E F G A B C Db E F G A# B C D E F G A B C D Eb F G A B C D E F# G A B Cb D E F G 
+A B C D E
+82 33
+C# Ab E D# F Eb E F# E B G Eb F E D# A# G F A Ab C G# E Bb Bb F C E F C# C C F C# F C C B D# Db C# C C Bb G# A E Db B Gb Eb Db A Eb Ab E Gb F Eb C A# Gb C F E G B C# E F B D# Ab C# Bb Bb B E G# D# Ab F 
+A# B F Eb C Ab Fb Eb B Fb Bb F Ab G Fb D B# Ab D G F A C D# F G C E# Bb D# Cb Cb C 
+55 13
+A D E G# F E F# C# Db B E C# C G# A D C Ab B Bb D Eb D# G# Db B C C C# C Db D# A# Db B D# B C Bb B C D A# Eb F B A# E G# G# F B B G# E 
+Db E Eb G Ab G# C# Gb E F F F# F 
+133 35
+G# Ab Bb F Eb F Db Ab Bb B A# Bb B F# Bb D C# C# A# G G# C F# Bb G# F D# C E Bb B Gb D A D# Eb Gb G# A Bb B D# C# E E D D# B A# G# B C Gb E Ab C Ab Ab Eb A E E C Eb B E D B D E G A# D G# B E Gb A B B F# C# A# Eb A C# F# Db A# F E B F A Db Gb D# E F Eb Bb E B Eb F D# C# C# Db E A# Eb D G A# D# A Eb Db F# Bb A C# A A Bb G F C# F D D# F 
+Eb E Cb G D G# Ab Cb C# D Eb E G# F# A A G G# E D# C# E F Cb A Db F Db Db Ab D A A F Ab 
 0 0

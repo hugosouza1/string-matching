@@ -24,46 +24,49 @@ int *criarTabelaLPS(int *padrao, int tamanho){
     return tabela;
 }
 
-void KMP(NO* nota){
+int KMP(NO* nota, int* contador){
     int *texto = nota->original;
     int *padrao = nota->plagio;
-    
-    int i = 0, j = 0;
-    int k = 0, h = 0; // indices para auxiliar na busca
     int *tabela = criarTabelaLPS(padrao, nota->plagioTamanho);
-    int tom = tons(texto[0], padrao[0]);
-    while( i < nota->originalTamanho){
-        if(tomShift(texto[i], tom) == padrao[j]){
-            i++;
-            j++;
-            if(j == nota->plagioTamanho){
-                printf("S %d\n", i-j);
-                free(tabela);
-                return;
-            }
-        }else{
-            if((i < nota->originalTamanho)) {
-                if(j != 0){
-                    j = tabela[j - 1]; //usa a tabela para atualizar o j
-                                       //sem retroceder na busca
-                    if(j == 0) tom = tons(texto[i], padrao[j]);
-                }else{ 
-                    i++;     
-                    tom = tons(texto[i], padrao[j]);
-                }
-            } else {
+    for(int tom = 0; tom < 12; tom++){
+
+        int i = 0, j = 0;
+        while( i < nota->originalTamanho){
+            (*contador)++;
+            if(texto[i] == tomShift(padrao[j], tom)){
                 i++;
+                j++;
+                if(j == nota->plagioTamanho){
+                    //printf("S %d | ", i-j);
+                    free(tabela);
+                    return i - j;
+                }
+            }else{
+                if((i < nota->originalTamanho)) {
+                    if(j != 0){
+                        j = tabela[j - 1]; 
+                    }else{ 
+                        i++;     
+                    }
+                } else {
+                    i++;
+                }
             }
         }
     }
-    printf("N\n");
+    //printf("N | ");
     free(tabela);
+    return -1;
 }
 
-void resolucaoKMP(Fila *notas){
+int* resolucaoKMP(Fila *notas){
     NO *aux = notas->inicio;
+    int *resultado = (int*)malloc(sizeof(int) * notas->tamanho);
+    int i = 0, contador = 0;
     while(aux != NULL){
-        KMP(aux);
-        aux = aux->prox;
+        resultado[i] = KMP(aux, &contador);
+        aux = aux->prox; i++;
     }
+    printf("Foram feitas %d comparações.\n", contador);
+    return resultado;
 }

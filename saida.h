@@ -1,12 +1,10 @@
-#ifndef BMH_H
-#define BMH_H
-
+#ifndef SAIDA_H
+#define SAIDA_H
 #include <stdio.h>
 #include <stdlib.h>
 #include "./estrutura-de-dados/fila.h"
-#include "tons.h"
 #include "cronometro.h"
 
-int* resolucaoBMH(Fila *notas);
+void escrita(int *metodo, char* nomeMetodo, int tamanho);
 
 #endif

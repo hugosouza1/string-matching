@@ -2,11 +2,12 @@
 #define SHIFTAND_H
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "./estrutura-de-dados/fila.h"
 #include "./tons.h"
-#include <math.h>
+#include "cronometro.h"
 
-void resolucaoShiftAnd(Fila *notas);
+int* resolucaoShiftAnd(Fila *notas);
 
 
 #endif

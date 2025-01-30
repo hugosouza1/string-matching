@@ -7,6 +7,6 @@
 #include "./estrutura-de-dados/fila.h"
 #include "tons.h"
 
-void resolucaoKMP(Fila *notas);
+int* resolucaoKMP(Fila *notas);
 
 #endif

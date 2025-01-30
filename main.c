@@ -6,105 +6,149 @@
 #include "KMP.h"
 #include "./BMH.h"
 #include "./shiftAnd.h"
+#include "saida.h"
 #include <time.h>
 
 double tempoDecorridoCPU = 0;
 
+int geraArquivo();
+
 int main(int *arg, char *argv[]){
 
-    Fila *fila = leitura(argv[1]);
+    //geraArquivo();
+
+    //Fila *fila = leitura(argv[1]);
+    Fila *fila = leitura("teste.txt");
+    int *resultado = NULL;
     //imprimirFila(fila);
+    
+    NO *aux = fila->inicio;
+    while(aux != NULL){
+        for(int i = 0; i < aux->plagioTamanho; i++){
+            aux->plagio[i] += 5;
+            if(aux->plagio[i] > 12){
+                aux->plagio[i] = aux->plagio[i] - 12;
+            }
+        }
+        aux = aux->prox;
+    }
+
     int x = atoi(argv[2]);
     switch(x){
         case 1:
-            printf("Forca Bruta:\n");
-            resolucaoForcaBruta(fila);
+            resultado = resolucaoForcaBruta(fila);
+            escrita(resultado, "Força Bruta", fila->tamanho);
+            free(resultado);
             break;
         case 2:
-            printf("KMP:\n");
-            resolucaoKMP(fila);
+            resultado = resolucaoKMP(fila);
+            escrita(resultado, "KMP", fila->tamanho);
+            free(resultado);
             break;
         case 3:
-            printf("BMH:\n");
-            resolucaoBMH(fila);
+            resultado = resolucaoBMH(fila);
+            escrita(resultado, "BMH", fila->tamanho);
+            free(resultado);
             break;
         case 4:
-            printf("ShiftAnd:\n");
-            resolucaoShiftAnd(fila);
-            break;
-
-            
-        case 5:  //teste
-            printf("Forca Bruta:\n"); 
-            resolucaoForcaBruta(fila);
-            printf("\n");
-            printf("KMP:\n");
-            resolucaoKMP(fila);
-            printf("\n");
-            printf("BMH:\n");
-            resolucaoBMH(fila);
-            printf("\n");
-            printf("ShiftAnd:\n");
-            resolucaoShiftAnd(fila);
+            resultado = resolucaoShiftAnd(fila);
+            escrita(resultado, "Shift-And", fila->tamanho);
+            free(resultado);
             break;
     }
 
     destroiFila(fila);
-    
-    
-    
     return 0;
 }
 
 
-int geraAruivo(){
-   srand(time(NULL));
+// Função para gerar uma nota musical aleatória (A, B, C, D, E, F, G) com possibilidade de sustenido ou bemol
+char* gerarNota() {
+    char* nota = (char*) malloc(3 * sizeof(char)); // Aloca espaço para a nota (2 caracteres + '\0')
+    char notas[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G'};
+    int indice = rand() % 7; // Escolhe uma nota aleatória
+    nota[0] = notas[indice]; // Define a nota base
 
-    FILE *teste = fopen("teste.txt", "w");
+    // Decide se a nota será natural, sustenido ou bemol
+    int modificador = rand() % 3; // 0: natural, 1: sustenido, 2: bemol
 
-    for (int i = 0; i < 15; i++) {
+    // Regras para sustenidos e bemóis
+    if (nota[0] == 'B' || nota[0] == 'E') {
+        // Notas B e E não podem ter sustenidos
+        if (modificador == 1) modificador = 0; // Força natural
+    } else if (nota[0] == 'C' || nota[0] == 'F') {
+        // Notas C e F não podem ter bemóis
+        if (modificador == 2) modificador = 0; // Força natural
+    }
 
+    // Aplica o modificador
+    if (modificador == 1) {
+        nota[1] = '#'; // Adiciona sustenido
+        nota[2] = '\0'; // Termina a string
+    } else if (modificador == 2) {
+        nota[1] = 'b'; // Adiciona bemol
+        nota[2] = '\0'; // Termina a string
+    } else {
+        nota[1] = '\0'; // Nota natural, sem modificador
+    }
+
+    return nota;
+}
+
+int geraArquivo() {
+    srand(time(NULL));
+
+    FILE* teste = fopen("teste.txt", "w");
+    if (teste == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        return 1;
+    }
+
+    for (int i = 0; i < 25; i++) {
         int x = 40 + (rand() % 100);
-        int *vet = (int*) malloc(sizeof(int) * x);
-        if (vet == NULL) {
-            printf("Erro ao alocar memória para vet\n");
-            return 1;
-        }
 
+        char** vet = (char**) malloc(sizeof(char*) * x);
         for (int j = 0; j < x; j++) {
-            vet[j] = 65 + (rand() % 6);
+            vet[j] = gerarNota();
         }
 
-        int ini = rand() % (x / 2);
-        int fifi = ini +1+ (rand() % (x / 2));
+        int ini = 5 + rand() % (x / 2);
+        int fifi = ini + ini / 4 + (rand() % (x / 2));
         if (fifi > x) fifi = x;
 
-        int *vet2 = (int*) malloc(sizeof(int) * (fifi - ini));
+        char** vet2 = (char**) malloc(sizeof(char*) * (fifi - ini));
         if (vet2 == NULL) {
             printf("Erro ao alocar memória para vet2\n");
+            for (int j = 0; j < x; j++) free(vet[j]);
             free(vet);
             return 1;
         }
-
-        for (int k = ini, j = 0; k < fifi; k++, j++) {
-            vet2[j] = vet[k];
+        
+        // Copia os elementos de vet para vet2
+        for (int iii = 0; iii < fifi - ini; iii++) {
+            vet2[iii] = strdup(vet[ini + iii]);  // Aloca e copia a string corretamente
         }
 
+        // Escreve no arquivo
         fprintf(teste, "%d %d\n", x, (fifi - ini));
         for (int ii = 0; ii < x; ii++) {
-            fprintf(teste, "%c ", vet[ii]);
+            fprintf(teste, "%s ", vet[ii]);
         }
         fprintf(teste, "\n");
 
         for (int iii = 0; iii < fifi - ini; iii++) {
-            fprintf(teste, "%c ", vet2[iii]);
+            fprintf(teste, "%s ", vet2[iii]);
         }
         fprintf(teste, "\n");
 
+        for (int j = 0; j < x; j++) free(vet[j]);
+        for (int j = 0; j < fifi - ini; j++) free(vet2[j]);
         free(vet);
         free(vet2);
     }
 
-    fclose(teste); 
+    fprintf(teste, "0 0\n");
+    fclose(teste);
 
+    return 0;
 }

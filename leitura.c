@@ -20,6 +20,8 @@ int *identificaTecla(double *melodia, int melodiaTamanho){
     return teclas;
 }
 
+
+
 int *converteMelodia(char *linha, double *array, int arrayTamanho) {
     char *token = strtok(linha, " ");
     for(int i = 0; token != NULL && i < arrayTamanho; i++) {

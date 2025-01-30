@@ -1,57 +1,93 @@
 #include "shiftAnd.h"
 
-void printBits(int num, int tamanho) {
-    for(int i = tamanho - 1; i >= 0; i--) {
-        printf("%d", (num >> i) & 1);
+void printBits(unsigned long long num, int tamanho) {
+    for (int i = tamanho - 1; i >= 0; i--) {
+        printf("%llu", (num >> i) & 1);
     }
     printf("\n");
 }
 
-int *criarMascara(NO *nota) {
-    int tamanhoAlfabeto = 12;
-    int *mascara = (int*)malloc(tamanhoAlfabeto * sizeof(int));
-    for(int i = 0; i < tamanhoAlfabeto; i++){
+unsigned long long *criarMascara(int *padrao, int padraoTamanho) {
+    int tamanhoAlfabeto = 13;
+    unsigned long long *mascara = (unsigned long long*)malloc(tamanhoAlfabeto * sizeof(unsigned long long));
+    for (int i = 0; i < tamanhoAlfabeto; i++) {
         mascara[i] = 0;
     }
-    for(int i = 0; i < nota->plagioTamanho; i++){
-        mascara[nota->plagio[i]-1] = mascara[nota->plagio[i]-1] | ((1 << (nota->plagioTamanho - 1)) >> i);
+    for (int i = 0; i < padraoTamanho; i++) {
+        mascara[padrao[i]] |= ((1ULL << (padraoTamanho - 1)) >> i);
     }
     return mascara;
 }
 
-void shiftAnd(NO *nota){
-    int *original = nota->original;
-    int *plagio = nota->plagio;
-    int *mascara = criarMascara(nota);
-
-    int r = 0;
-    int tom = tons(original[0], plagio[0]), k = 0;
-    
-    for(int i = 0; i < nota->originalTamanho; i++){
-        if(tomShift(original[i], tom) != plagio[k]) {
-            if(r != 0 && i > 0) {
-                if(original[i] == original[i-1] && tomShift(original[i],tom) == plagio[0]) continue;
-            }
-            k = r = 0;
-            tom = tons(original[i], plagio[k]);
-        }
-        r = ((r >> 1) | (1 << (nota->plagioTamanho - 1))) & mascara[tomShift(original[i], tom)-1];
-
-        if((r & 1) == 1){
-            printf("S %d\n", i - nota->plagioTamanho + 1);
-            free(mascara);
-            return;
-        }
-        k++;
+int *copiaVetor(int *vet, int tam) {
+    int *novo = (int*) malloc(sizeof(int) * tam);
+    for (int i = 0; i < tam; i++) {
+        novo[i] = vet[i];
     }
-    printf("N\n");
-    free(mascara);
+    return novo;
 }
 
-void resolucaoShiftAnd(Fila *notas) {
-    NO *aux = notas->inicio;
-    while(aux != NULL) {
-        shiftAnd(aux);
-        aux = aux->prox;
+void incrementarVetor(int *vetor, int tamanho) {
+    for (int i = 0; i < tamanho; i++) {
+        vetor[i]++;
+        if (vetor[i] > 12) {
+            vetor[i] = 1; // Ajusta para o intervalo de 1 a 12
+        }
     }
+}
+
+int shiftAnd(NO *nota, int *contador) {
+    int *original = nota->original;
+    int *plagio = nota->plagio;
+    int *copiaPlagio = copiaVetor(plagio, nota->plagioTamanho);
+
+    unsigned long long **mascaras = (unsigned long long**) malloc(sizeof(unsigned long long*) * 13);
+
+    for (int i = 0; i < 13; i++) {
+        mascaras[i] = criarMascara(copiaPlagio, nota->plagioTamanho);
+        incrementarVetor(copiaPlagio, nota->plagioTamanho);
+    }
+    
+    free(copiaPlagio);
+    
+    unsigned long long *r = (unsigned long long*) malloc(sizeof(unsigned long long) * 13);
+
+    for (int i = 0; i < 13; i++) r[i] = 0;
+
+    for (int i = 0; i < nota->originalTamanho; i++) {
+        for (int j = 0; j < 13; j++) {
+            (*contador)++;
+            r[j] = ((r[j] >> 1) | (1ULL << (nota->plagioTamanho - 1))) & mascaras[j][original[i]];
+            
+            if ((r[j] & 1ULL) != 0) {
+                //printf("S %d | ", i - nota->plagioTamanho + 1);
+                for (int k = 0; k < 13; k++) {
+                    free(mascaras[k]);
+                }
+                free(mascaras);
+                free(r);
+                return i - nota->plagioTamanho + 1;
+            }
+        }
+    }
+
+    //printf("N | ");
+    for (int i = 0; i < 13; i++) {
+        free(mascaras[i]);
+    }
+    free(mascaras);
+    free(r);
+    return -1;
+}
+
+int* resolucaoShiftAnd(Fila *notas) {
+    NO *aux = notas->inicio;
+    int *resultado = (int*)malloc(sizeof(int) * notas->tamanho);
+    int i = 0, contador = 0;
+    while(aux != NULL){
+        resultado[i] = shiftAnd(aux, &contador);
+        aux = aux->prox; i++;
+    }
+    printf("Foram feitas %d comparações.\n", contador);
+    return resultado;
 }

@@ -14,10 +14,10 @@ void finalizaCronometro(struct timeval inicio, char *processo){
     struct rusage usage;
     struct timeval fim;
     gettimeofday(&fim, NULL);
-    long seconds = fim.tv_sec - inicio.tv_sec;
-    long  microseconds = fim.tv_usec - inicio.tv_usec;
-    double elapsed = seconds + microseconds * 1e-6;
-    printf("Tempo de %s(cronologico): %.6f segundos\n", processo, (elapsed));
+    long segundos = fim.tv_sec - inicio.tv_sec;
+    long  microsegundos = fim.tv_usec - inicio.tv_usec;
+    double decorrido = segundos + microsegundos * 1e-6;
+    printf("Tempo de %s(cronologico): %.6f segundos\n", processo, (decorrido));
     getrusage(RUSAGE_SELF, &usage);
     printf("Tempo de %s(CPU): %.6lf segundos\n", 
            processo, (usage.ru_utime.tv_sec + usage.ru_utime.tv_usec * 1e-6) - tempoDecorridoCPU);

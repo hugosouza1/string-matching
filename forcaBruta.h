@@ -5,7 +5,8 @@
 #include "./estrutura-de-dados/fila.h"
 #include <math.h>
 #include "tons.h"
+#include "cronometro.h"
 
-void resolucaoForcaBruta(Fila *notas);
+int* resolucaoForcaBruta(Fila *notas);
 
 #endif
