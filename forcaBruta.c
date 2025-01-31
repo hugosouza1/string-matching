@@ -7,7 +7,7 @@ int forcaBruta(NO *nota, int *contador){
 
     for(int i = 0; i < nota->originalTamanho; i++){
 
-        for(int j = i, k = 0; j < nota->originalTamanho; j++, k++){
+        for(int j = i, k = 0; k < nota->plagioTamanho && j < nota->originalTamanho; j++, k++){
             (*contador)++;
             if(tons(original[j], plagio[k]) != tons(original[i], plagio[0])){
                 break;
@@ -15,11 +15,9 @@ int forcaBruta(NO *nota, int *contador){
             if(k == nota->plagioTamanho - 1){
                 return i;
             }
-            if(j == nota->originalTamanho - 1){
-                return -1;
-            }
         }
     }
+    return -1;
 }
 
 
