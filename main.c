@@ -22,7 +22,7 @@ int main(int *arg, char *argv[]){
     int *resultado = NULL;
     int *resultado2 = NULL;
     //imprimirFila(fila);
-    
+
     NO *aux = fila->inicio;
     while(aux != NULL){
         for(int i = 0; i < aux->plagioTamanho; i++){
