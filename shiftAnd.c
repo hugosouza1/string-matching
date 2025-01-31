@@ -14,17 +14,19 @@ void printBits(int *num, int particoes) {
 int **criarMascara(NO *nota) {
     int tamanhoAlfabeto = 12;
     int **mascara = (int**)malloc(tamanhoAlfabeto * sizeof(int*));
+
     int particoes = (nota->plagioTamanho / 32);
     if(nota->plagioTamanho % 32 > 0) particoes++;
+    
     for (int i = 0; i < tamanhoAlfabeto; i++) {
         mascara[i] = (int*)malloc(particoes * sizeof(int));
         for(int j = 0; j < particoes; j++) {
             mascara[i][j] = 0;
         }
     }
-    int j = 0;
+
     for (int i = 0; i < nota->plagioTamanho; i++) {
-        mascara[nota->plagio[i] - 1][j+(i/32)] |= (1 << (nota->plagioTamanho - i - 1));
+        mascara[nota->plagio[i] - 1][(i/32)] |= (1 << (nota->plagioTamanho - i - 1));
     }
     return mascara;
 }
@@ -65,14 +67,21 @@ int shiftAnd(NO *nota, int *contador) {
             tom = tons(original[i], plagio[k]);
         }
         (*contador)++;
+
+        // Atualiza r para todas as partições
         for(int j = 0; j < particoes; j++) {
-                r[j] = ((r[j] >> 1) | (1 << ( (nota->plagioTamanho - 1 - (j*32)) % 32))) & mascaras[tomShift(original[i], tom) - 1][j];
-                /*
-                r[j] = ((r[j] >> 1)) & mascaras[tomShift(original[i], tom) - 1][j];
-                */
-            
+            if (j == 0) {
+                r[j] = ((r[j] >> 1) | (1 << 31)) & mascaras[tomShift(original[i], tom) - 1][j];
+            } else {
+                if ((r[j-1] & 1) == 1) {
+                    r[j] = ((r[j] >> 1) | (1 << 31)) ;
+                } else {
+                    r[j] = (r[j] >> 1) ;
+                }
+            }
         }
-        int a = nota->plagioTamanho - (particoes * 32);
+
+
         printBits(r, particoes);
         if ((r[particoes-1] & 1) == 1) { // condição de sucesso
             //printf("S %d | ", i - nota->plagioTamanho + 1);
