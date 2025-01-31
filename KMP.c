@@ -33,7 +33,7 @@ int KMP(NO* nota, int *contador) {
 
     while (i < nota->originalTamanho && j < nota->plagioTamanho) {
         (*contador)++;
-        //printf("i = %d, j = %d, texto[i] = %d, padrao[j] = %d, tom = %d\n", i, j, texto[i], padrao[j], tom);
+        printf("i = %d, j = %d, texto[i] = %d, padrao[j] = %d, tom = %d\n", i, j, texto[i], padrao[j], tom);
         if (tomShift(texto[i], tom) == padrao[j]) {
             i++;
             j++;
@@ -42,12 +42,29 @@ int KMP(NO* nota, int *contador) {
                 return i - j; // Padrão encontrado
             }
         } else {
-            if (j != 0) {
-                j = tabela[j - 1]; // Atualiza j usando a tabela LPS
+            if(i < nota->originalTamanho) {
+                if (j != 0) {
+                    j = tabela[j - 1]; // Atualiza j usando a tabela LPS
+                    if(j == 0)  {
+                        if(i > 0) { // confere se i não é correspondente a posição plagio[1]
+                            int tomAux = tons(texto[i - 1], padrao[j]);
+                            if(tomShift(texto[i], tomAux) == padrao[j+1]) {
+                                tom = tomAux;
+                                j = j+1;
+                            } else {
+                                tom = tons(texto[i],padrao[j]);
+                            }
+                        } else {
+                            tom = tons(texto[i],padrao[j]);
+                        }
+                    }
+                } else {
+                    i++;
+                    tom = tons(texto[i], padrao[j]); // Recalcula tom com o novo j
+                }
             } else {
                 i++;
             }
-            tom = tons(texto[i], padrao[0]); // Recalcula tom com o novo j
         }
     }
 
