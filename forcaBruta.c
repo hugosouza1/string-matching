@@ -10,15 +10,12 @@ int forcaBruta(NO *nota, int *contador){
         for(int j = i, k = 0; j < nota->originalTamanho; j++, k++){
             (*contador)++;
             if(tons(original[j], plagio[k]) != tons(original[i], plagio[0])){
-                //printf("%d-", i);
                 break;
             }
             if(k == nota->plagioTamanho - 1){
-                //printf("S %d | ", i);
                 return i;
             }
             if(j == nota->originalTamanho - 1){
-                //printf("N | ");
                 return -1;
             }
         }
