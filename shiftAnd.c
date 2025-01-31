@@ -65,18 +65,11 @@ int shiftAnd(NO *nota, int *contador) {
             tom = tons(original[i], plagio[k]);
         }
         (*contador)++;
-        int shiftNext = 1;
         for(int j = 0; j < particoes; j++) {
-            if(shiftNext == 1) {
-                shiftNext = r[j] & 1;
-                r[j] = ((r[j] >> 1) | (1 << (nota->plagioTamanho - 1 - (j*32)))) & mascaras[tomShift(original[i], tom) - 1][j];
-            } else {
-                shiftNext = r[j] & 1;
-                r[j] = (r[j] >> 1);
+                r[j] = ((r[j] >> 1) | (1 << ( (nota->plagioTamanho - 1 - (j*32)) % 32))) & mascaras[tomShift(original[i], tom) - 1][j];
                 /*
                 r[j] = ((r[j] >> 1)) & mascaras[tomShift(original[i], tom) - 1][j];
                 */
-            }
             
         }
         int a = nota->plagioTamanho - (particoes * 32);

@@ -1,16 +1,16 @@
-KMP
+Shift-And
 S 32
 S 21
-N
+S -44
 S 26
 S 22
-N
+S 50
 S 22
 S 15
 S 26
+S 31
 N
-N
-N
+S 47
 S 44
 S 16
 S 14
@@ -23,4 +23,4 @@ S 20
 S 5
 S 12
 S 27
-S 0
+S -96
