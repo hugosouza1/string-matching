@@ -23,16 +23,6 @@ int main(int *arg, char *argv[]){
     int *resultado2 = NULL;
     //imprimirFila(fila);
 
-    NO *aux = fila->inicio;
-    while(aux != NULL){
-        for(int i = 0; i < aux->plagioTamanho; i++){
-            aux->plagio[i] += 2;
-            if(aux->plagio[i] > 12){
-                aux->plagio[i] = aux->plagio[i] - 12;
-            }
-        }
-        aux = aux->prox;
-    }
 
     int x = atoi(argv[2]);
     switch(x){

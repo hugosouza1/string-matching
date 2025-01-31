@@ -6,6 +6,7 @@
 #include "./estrutura-de-dados/fila.h"
 #include "./tons.h"
 #include "cronometro.h"
+#include <string.h>
 
 int* resolucaoShiftAnd(Fila *notas);
 

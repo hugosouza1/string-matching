@@ -2,9 +2,9 @@
 #define TONS_H
 
 #include <stdlib.h>
+#include "./estrutura-de-dados/fila.h"
 
 int tons(int primeiro, int segundo);
 int tomShift(int nota, int tom);
-int comparaTom(int nota1, int nota2, int tom);
-
+void sobeTom(NO *nota, int tom);
 #endif

@@ -2,7 +2,7 @@
 
 void printBits(int *num, int particoes) {
     for(int i = 0; i < particoes; i++) {
-        for(int j = 0; j < 32; j++) {
+        for(int j = 31; j >= 0; j--) { // Imprime do MSB para LSB
             printf("%d", (num[i] >> j) & 1);
         }
         printf(" ");
@@ -10,30 +10,29 @@ void printBits(int *num, int particoes) {
     printf("\n");
 }
 
+
 // Função para criar a máscara de bits
 int **criarMascara(NO *nota) {
     int tamanhoAlfabeto = 12;
     int **mascara = (int**)malloc(tamanhoAlfabeto * sizeof(int*));
-
-    int particoes = (nota->plagioTamanho / 32);
-    if(nota->plagioTamanho % 32 > 0) particoes++;
+    int particoes = (nota->plagioTamanho + 31) / 32; // Arredondar para cima
     
     for (int i = 0; i < tamanhoAlfabeto; i++) {
-        mascara[i] = (int*)malloc(particoes * sizeof(int));
-        for(int j = 0; j < particoes; j++) {
-            mascara[i][j] = 0;
-        }
+        mascara[i] = (int*)calloc(particoes, sizeof(int)); // Inicializa com 0
     }
-
+   
     for (int i = 0; i < nota->plagioTamanho; i++) {
-        mascara[nota->plagio[i] - 1][(i/32)] |= (1 << (nota->plagioTamanho - i - 1));
+        int global_pos = nota->plagioTamanho - i - 1; // Posição global inversa
+        int part = global_pos / 32;
+        int bit = global_pos % 32;
+        mascara[nota->plagio[i] - 1][part] |= (1 << bit);
     }
     return mascara;
 }
 
 void destroiMascara(int **mascara, NO *nota) {
-    int particoes = (nota->plagioTamanho / 32) + 1;
-    for(int i = 0; i < particoes; i++) {
+    int particoes = (nota->plagioTamanho + 31) / 32;
+    for(int i = 0; i < 12; i++) {
         free(mascara[i]);
     }
     free(mascara);
@@ -44,14 +43,13 @@ int shiftAnd(NO *nota, int *contador) {
     int *original = nota->original;
     int *plagio = nota->plagio;
     int **mascaras = criarMascara(nota);
-    int particoes = (nota->plagioTamanho/32);
-    if(nota->plagioTamanho % 32 > 0) particoes++;
-    /*
+    int particoes = (nota->plagioTamanho + 31) / 32;
+    
     printf("PARTICOES - TAMANHO: %d - %d\n", particoes, nota->plagioTamanho);
     for(int i = 0; i < 12; i++) {
         printBits(mascaras[i], particoes);
     }
-    */
+    
     int *r = (int*)malloc(particoes * sizeof(int));
     for(int i = 0; i < particoes; i++) r[i] = 0;
     int tom = tons(original[0], plagio[0]), k = 0;
@@ -63,27 +61,39 @@ int shiftAnd(NO *nota, int *contador) {
                 if (original[i] == original[i - 1] && tomShift(original[i], tom) == plagio[0]) continue;
             }
             k = 0;
-            //for(int j = 0; j < particoes; j++) r[j] = 0;
+            for(int j = 0; j < particoes; j++) r[j] = 0;
             tom = tons(original[i], plagio[k]);
         }
         (*contador)++;
 
-        // Atualiza r para todas as partições
+        // & mascaras[tomShift(original[i], tom) - 1][j]
+        int shift = 1;
         for(int j = 0; j < particoes; j++) {
-            if (j == 0) {
-                r[j] = ((r[j] >> 1) | (1 << 31)) & mascaras[tomShift(original[i], tom) - 1][j];
-            } else {
-                if ((r[j-1] & 1) == 1) {
-                    r[j] = ((r[j] >> 1) | (1 << 31)) ;
+            if(shift == 1){
+                shift = r[j] & 1;
+                if(j == 0){
+                    r[j] = (r[j] >> 1) | (1 << ((nota->plagioTamanho - 1 - j*32)));
                 } else {
-                    r[j] = (r[j] >> 1) ;
+                    r[j] = (r[j] >> 1) | (1 << 31);
                 }
+
+            } else {
+                shift = r[j] & 1;
+                r[j] = r[j] >> 1;
             }
+            
         }
 
+        for(int j = 0; j < particoes; j++){
+            r[j] &= mascaras[tomShift(original[i], tom) - 1][j];    
+        }
 
         printBits(r, particoes);
-        if ((r[particoes-1] & 1) == 1) { // condição de sucesso
+
+
+
+
+        if ((r[particoes-1] & 1) != 0) { // condição de sucesso
             //printf("S %d | ", i - nota->plagioTamanho + 1);
             destroiMascara(mascaras, nota);
             return i - nota->plagioTamanho + 1;
