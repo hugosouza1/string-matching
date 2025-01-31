@@ -54,7 +54,7 @@ int* resolucaoBMH(Fila *notas) {
         resultado[i] = BMH(aux, &contador);
         aux = aux->prox; i++;
     }
-    printf("Foram feitas %d comparações.\n", contador);
+    printf("Foram feitas %d comparações(BMH).\n", contador);
     return resultado;
 }
 

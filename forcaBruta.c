@@ -34,6 +34,6 @@ int* resolucaoForcaBruta(Fila *notas){
         resultado[i] = forcaBruta(aux, &contador);
         aux = aux->prox; i++;
     }
-    printf("Foram feitas %d comparações.\n", contador);
+    printf("Foram feitas %d comparações(Forca Bruta).\n", contador);
     return resultado;
 }

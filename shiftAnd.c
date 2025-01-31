@@ -11,7 +11,7 @@ unsigned long long *criarMascara(int *padrao, int padraoTamanho) {
     int tamanhoAlfabeto = 13;
     unsigned long long *mascara = (unsigned long long*)malloc(tamanhoAlfabeto * sizeof(unsigned long long));
     for (int i = 0; i < tamanhoAlfabeto; i++) {
-        mascara[i] = 0;
+        mascara[i] = 0; 
     }
     for (int i = 0; i < padraoTamanho; i++) {
         mascara[padrao[i]] |= ((1ULL << (padraoTamanho - 1)) >> i);

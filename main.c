@@ -20,12 +20,13 @@ int main(int *arg, char *argv[]){
     //Fila *fila = leitura(argv[1]);
     Fila *fila = leitura("teste.txt");
     int *resultado = NULL;
+    int *resultado2 = NULL;
     //imprimirFila(fila);
     
     NO *aux = fila->inicio;
     while(aux != NULL){
         for(int i = 0; i < aux->plagioTamanho; i++){
-            aux->plagio[i] += 5;
+            aux->plagio[i] += 2;
             if(aux->plagio[i] > 12){
                 aux->plagio[i] = aux->plagio[i] - 12;
             }
@@ -42,7 +43,16 @@ int main(int *arg, char *argv[]){
             break;
         case 2:
             resultado = resolucaoKMP(fila);
-            escrita(resultado, "KMP", fila->tamanho);
+            // resultado2 = resolucaoForcaBruta(fila);
+             escrita(resultado, "KMP", fila->tamanho);
+            // for(int i = 0; i < fila->tamanho; i++){
+            //     if(resultado[i] != resultado2[i]){
+            //         printf("Erro na posição %d\n", i);
+            //         printf("KMP: %d\n", resultado[i]);
+            //         printf("Força Bruta: %d\n\n", resultado2[i]);
+            //     }
+            // }
+
             free(resultado);
             break;
         case 3:

@@ -2,6 +2,7 @@
     "files.associations": {
         "stdlib.h": "c",
         "forcabruta.h": "c",
-        "bmh.h": "c"
+        "bmh.h": "c",
+        "tons.h": "c"
     }
 }
