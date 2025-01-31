@@ -10,8 +10,11 @@ run: clean build
 leak: clean build
 	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all -s ./tp3.exe entrada.txt $(metodo)
 
-build: $(OBJ_DIR)/main.o $(OBJ_DIR)/leitura.o $(OBJ_DIR)/saida.o $(OBJ_DIR)/forcaBruta.o $(OBJ_DIR)/KMP.o $(OBJ_DIR)/fila.o $(OBJ_DIR)/tons.o $(OBJ_DIR)/BMH.o $(OBJ_DIR)/shiftAnd.o $(estrutura-de-dados)
-	gcc $(OBJ_DIR)/main.o $(OBJ_DIR)/leitura.o $(OBJ_DIR)/saida.o $(OBJ_DIR)/forcaBruta.o $(OBJ_DIR)/KMP.o $(OBJ_DIR)/fila.o $(OBJ_DIR)/tons.o $(OBJ_DIR)/BMH.o $(OBJ_DIR)/shiftAnd.o -o ./tp3.exe -lm
+build: $(OBJ_DIR)/main.o $(OBJ_DIR)/leitura.o $(OBJ_DIR)/saida.o $(OBJ_DIR)/cronometro.o  $(OBJ_DIR)/forcaBruta.o $(OBJ_DIR)/KMP.o $(OBJ_DIR)/fila.o $(OBJ_DIR)/tons.o $(OBJ_DIR)/BMH.o $(OBJ_DIR)/shiftAnd.o $(estrutura-de-dados)
+	gcc $(OBJ_DIR)/main.o $(OBJ_DIR)/leitura.o $(OBJ_DIR)/saida.o $(OBJ_DIR)/cronometro.o $(OBJ_DIR)/forcaBruta.o $(OBJ_DIR)/KMP.o $(OBJ_DIR)/fila.o $(OBJ_DIR)/tons.o $(OBJ_DIR)/BMH.o $(OBJ_DIR)/shiftAnd.o -o ./tp3.exe -lm
+
+$(OBJ_DIR)/cronometro.o: ./cronometro.c | $(OBJ_DIR)
+	gcc -c ./cronometro.c -o $(OBJ_DIR)/cronometro.o
 
 $(OBJ_DIR)/saida.o: ./saida.c | $(OBJ_DIR)
 	gcc -c ./saida.c -o $(OBJ_DIR)/saida.o

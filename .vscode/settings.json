@@ -3,6 +3,7 @@
         "stdlib.h": "c",
         "forcabruta.h": "c",
         "bmh.h": "c",
-        "tons.h": "c"
+        "tons.h": "c",
+        "cronometro.h": "c"
     }
 }

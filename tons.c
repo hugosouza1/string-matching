@@ -15,15 +15,3 @@ int tomShift(int nota, int tom) {
     }
     return nota;
 }
-
-void sobeTom(NO *nota, int tom){
-    while(nota != NULL){
-        for(int i = 0; i < nota->plagioTamanho; i++){
-            nota->plagio[i] += tom;
-            if(nota->plagio[i] > 12){
-                nota->plagio[i] = nota->plagio[i] - 12;
-            }
-        }
-        nota = nota->prox;
-    }
-}
