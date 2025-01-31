@@ -72,7 +72,7 @@ int shiftAnd(NO *nota, int *contador) {
             if(shift == 1){
                 shift = r[j] & 1;
                 if(j == 0){
-                    r[j] = (r[j] >> 1) | (1 << ((nota->plagioTamanho - 1 - j*32)));
+                    r[j] = (r[j] >> 1) | (1 << ((nota->plagioTamanho % 32) - 1));
                 } else {
                     r[j] = (r[j] >> 1) | (1 << 31);
                 }
@@ -84,8 +84,8 @@ int shiftAnd(NO *nota, int *contador) {
             
         }
 
-        for(int j = 0; j < particoes; j++){
-            r[j] &= mascaras[tomShift(original[i], tom) - 1][j];    
+        for(int j = 0, jj = particoes -1; j < particoes; j++, jj--){
+            r[j] &= mascaras[tomShift(original[i], tom) - 1][jj];    
         }
 
         printBits(r, particoes);
