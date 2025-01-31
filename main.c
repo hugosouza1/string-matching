@@ -21,7 +21,7 @@ int main(int *arg, char *argv[]){
     Fila *fila = leitura("teste.txt");
     int *resultado = NULL;
     //imprimirFila(fila);
-    
+
     NO *aux = fila->inicio;
     while(aux != NULL){
         for(int i = 0; i < aux->plagioTamanho; i++){

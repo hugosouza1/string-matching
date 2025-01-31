@@ -1,82 +1,96 @@
 #include "shiftAnd.h"
 
-void printBits(unsigned long long num, int tamanho) {
-    for (int i = tamanho - 1; i >= 0; i--) {
-        printf("%llu", (num >> i) & 1);
+void printBits(int *num, int particoes) {
+    for(int i = 0; i < particoes; i++) {
+        for(int j = 0; j < 32; j++) {
+            printf("%d", (num[i] >> j) & 1);
+        }
+        printf(" ");
     }
     printf("\n");
 }
 
-unsigned long long *criarMascara(int *padrao, int padraoTamanho) {
-    int tamanhoAlfabeto = 13;
-    unsigned long long *mascara = (unsigned long long*)malloc(tamanhoAlfabeto * sizeof(unsigned long long));
+// Função para criar a máscara de bits
+int **criarMascara(NO *nota) {
+    int tamanhoAlfabeto = 12;
+    int **mascara = (int**)malloc(tamanhoAlfabeto * sizeof(int*));
+    int particoes = (nota->plagioTamanho / 32);
+    if(nota->plagioTamanho % 32 > 0) particoes++;
     for (int i = 0; i < tamanhoAlfabeto; i++) {
-        mascara[i] = 0;
+        mascara[i] = (int*)malloc(particoes * sizeof(int));
+        for(int j = 0; j < particoes; j++) {
+            mascara[i][j] = 0;
+        }
     }
-    for (int i = 0; i < padraoTamanho; i++) {
-        mascara[padrao[i]] |= ((1ULL << (padraoTamanho - 1)) >> i);
+    int j = 0;
+    for (int i = 0; i < nota->plagioTamanho; i++) {
+        mascara[nota->plagio[i] - 1][j+(i/32)] |= (1 << (nota->plagioTamanho - i - 1));
     }
     return mascara;
 }
 
-int *copiaVetor(int *vet, int tam) {
-    int *novo = (int*) malloc(sizeof(int) * tam);
-    for (int i = 0; i < tam; i++) {
-        novo[i] = vet[i];
+void destroiMascara(int **mascara, NO *nota) {
+    int particoes = (nota->plagioTamanho / 32) + 1;
+    for(int i = 0; i < particoes; i++) {
+        free(mascara[i]);
     }
-    return novo;
+    free(mascara);
 }
 
-void incrementarVetor(int *vetor, int tamanho) {
-    for (int i = 0; i < tamanho; i++) {
-        vetor[i]++;
-        if (vetor[i] > 12) {
-            vetor[i] = 1; // Ajusta para o intervalo de 1 a 12
-        }
-    }
-}
-
+// Função Shift-And adaptada para buscar padrões transpostos em tons
 int shiftAnd(NO *nota, int *contador) {
     int *original = nota->original;
     int *plagio = nota->plagio;
-    int *copiaPlagio = copiaVetor(plagio, nota->plagioTamanho);
-
-    unsigned long long **mascaras = (unsigned long long**) malloc(sizeof(unsigned long long*) * 13);
-
-    for (int i = 0; i < 13; i++) {
-        mascaras[i] = criarMascara(copiaPlagio, nota->plagioTamanho);
-        incrementarVetor(copiaPlagio, nota->plagioTamanho);
+    int **mascaras = criarMascara(nota);
+    int particoes = (nota->plagioTamanho/32);
+    if(nota->plagioTamanho % 32 > 0) particoes++;
+    /*
+    printf("PARTICOES - TAMANHO: %d - %d\n", particoes, nota->plagioTamanho);
+    for(int i = 0; i < 12; i++) {
+        printBits(mascaras[i], particoes);
     }
-    
-    free(copiaPlagio);
-    
-    unsigned long long *r = (unsigned long long*) malloc(sizeof(unsigned long long) * 13);
-
-    for (int i = 0; i < 13; i++) r[i] = 0;
+    */
+    int *r = (int*)malloc(particoes * sizeof(int));
+    for(int i = 0; i < particoes; i++) r[i] = 0;
+    int tom = tons(original[0], plagio[0]), k = 0;
+    printf("%d\n", nota->originalTamanho);
 
     for (int i = 0; i < nota->originalTamanho; i++) {
-        for (int j = 0; j < 13; j++) {
-            (*contador)++;
-            r[j] = ((r[j] >> 1) | (1ULL << (nota->plagioTamanho - 1))) & mascaras[j][original[i]];
-            
-            if ((r[j] & 1ULL) != 0) {
-                //printf("S %d | ", i - nota->plagioTamanho + 1);
-                for (int k = 0; k < 13; k++) {
-                    free(mascaras[k]);
-                }
-                free(mascaras);
-                free(r);
-                return i - nota->plagioTamanho + 1;
+        if (tomShift(original[i], tom) != plagio[k]) {
+            if (r != 0 && i > 0) {
+                if (original[i] == original[i - 1] && tomShift(original[i], tom) == plagio[0]) continue;
             }
+            k = 0;
+            //for(int j = 0; j < particoes; j++) r[j] = 0;
+            tom = tons(original[i], plagio[k]);
         }
+        (*contador)++;
+        int shiftNext = 1;
+        for(int j = 0; j < particoes; j++) {
+            if(shiftNext == 1) {
+                shiftNext = r[j] & 1;
+                r[j] = ((r[j] >> 1) | (1 << (nota->plagioTamanho - 1 - (j*32)))) & mascaras[tomShift(original[i], tom) - 1][j];
+            } else {
+                shiftNext = r[j] & 1;
+                r[j] = (r[j] >> 1);
+                /*
+                r[j] = ((r[j] >> 1)) & mascaras[tomShift(original[i], tom) - 1][j];
+                */
+            }
+            
+        }
+        int a = nota->plagioTamanho - (particoes * 32);
+        printBits(r, particoes);
+        if ((r[particoes-1] & 1) == 1) { // condição de sucesso
+            //printf("S %d | ", i - nota->plagioTamanho + 1);
+            destroiMascara(mascaras, nota);
+            return i - nota->plagioTamanho + 1;
+        }
+        k++;
     }
 
     //printf("N | ");
-    for (int i = 0; i < 13; i++) {
-        free(mascaras[i]);
-    }
-    free(mascaras);
-    free(r);
+    destroiMascara(mascaras, nota);
     return -1;
 }
 

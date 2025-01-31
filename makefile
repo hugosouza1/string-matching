@@ -1,6 +1,6 @@
 OBJ_DIR = ./objetos
 SRC_DIR = ./estrutura-de-dados
-metodo ?= 1 
+metodo ?= 4 
 
 estrutura-de-dados = $(OBJ_DIR)/fila.o
 
