@@ -4,14 +4,14 @@ metodo ?= 4
 
 estrutura-de-dados = $(OBJ_DIR)/fila.o
 
-run: clean build
-	./tp3.exe entrada.txt $(metodo)
+run: 
+	./tp3 entrada.txt $(metodo)
 
 leak: clean build
-	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all -s ./tp3.exe entrada.txt $(metodo)
+	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all -s ./tp3 entrada.txt $(metodo)
 
 build: $(OBJ_DIR)/main.o $(OBJ_DIR)/leitura.o $(OBJ_DIR)/saida.o $(OBJ_DIR)/cronometro.o  $(OBJ_DIR)/forcaBruta.o $(OBJ_DIR)/KMP.o $(OBJ_DIR)/fila.o $(OBJ_DIR)/tons.o $(OBJ_DIR)/BMH.o $(OBJ_DIR)/shiftAnd.o $(estrutura-de-dados)
-	gcc $(OBJ_DIR)/main.o $(OBJ_DIR)/leitura.o $(OBJ_DIR)/saida.o $(OBJ_DIR)/cronometro.o $(OBJ_DIR)/forcaBruta.o $(OBJ_DIR)/KMP.o $(OBJ_DIR)/fila.o $(OBJ_DIR)/tons.o $(OBJ_DIR)/BMH.o $(OBJ_DIR)/shiftAnd.o -o ./tp3.exe -lm
+	gcc $(OBJ_DIR)/main.o $(OBJ_DIR)/leitura.o $(OBJ_DIR)/saida.o $(OBJ_DIR)/cronometro.o $(OBJ_DIR)/forcaBruta.o $(OBJ_DIR)/KMP.o $(OBJ_DIR)/fila.o $(OBJ_DIR)/tons.o $(OBJ_DIR)/BMH.o $(OBJ_DIR)/shiftAnd.o -o ./tp3 -lm
 
 $(OBJ_DIR)/cronometro.o: ./cronometro.c | $(OBJ_DIR)
 	gcc -c ./cronometro.c -o $(OBJ_DIR)/cronometro.o
@@ -48,4 +48,4 @@ $(OBJ_DIR):
 
 clean:
 	rm -f $(OBJ_DIR)/*.o
-	rm -f tp3.exe
+	rm -f tp3
