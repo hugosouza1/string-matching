@@ -20,8 +20,8 @@ int BMH(NO *nota, int* contador){
         int *tabela = criaTabelaBMH(nota, tom);
 
         while (i < nota->originalTamanho){
-            int k = i;
-            int j = nota->plagioTamanho - 1;
+            int k = i;                        // k é o índice do texto
+            int j = nota->plagioTamanho - 1; // j é o índice do padrão
     
             while (j >= 0 && nota->original[k] == tomShift(nota->plagio[j], tom)){
                 (*contador)++;

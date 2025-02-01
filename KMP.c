@@ -43,7 +43,7 @@ int KMP(NO* nota, int *contador){
                 if(j != 0){
                     j = tabela[j - 1]; // Atualiza j usando a tabela LPS
                    
-                    if(i > 0){ // confere se i não é correspondente a posição plagio[1]
+                    if(i > 0){ // confere se i não é correspondente a posição plagio[0]
                         int tomAux = tons(texto[i - 1], padrao[j]);
                         if(tomShift(texto[i], tomAux) == padrao[j+1]){
                             tom = tomAux;
