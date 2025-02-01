@@ -27,6 +27,7 @@ int **criarMascara(NO *nota){
     return mascara;
 }
 
+// Desaloca a estrutura da máscara
 void destroiMascara(int **mascara, NO *nota){
     int particoes = (nota->plagioTamanho + 31) / 32;
     for(int i = 0; i < 12; i++){
@@ -39,14 +40,15 @@ int shiftAnd(NO *nota, int *contador){
     int *original = nota->original;
     int *plagio = nota->plagio;
     int **mascaras = criarMascara(nota);
-    int particoes = (nota->plagioTamanho + 31) / 32;
+    int particoes = (nota->plagioTamanho + 31) / 32; // Quantidade de blocos de 32 para analise
     
     int *r = (int*)malloc(particoes * sizeof(int));
-    for(int i = 0; i < particoes; i++) r[i] = 0;
-    int tom = tons(original[0], plagio[0]), k = 0;
+    for(int i = 0; i < particoes; i++) r[i] = 0; // Inicializa com 0
+
+    int tom = tons(original[0], plagio[0]), k = 0; // Tom inicial
 
     for (int i = 0; i < nota->originalTamanho; i++){
-        if (tomShift(original[i], tom) != plagio[k]){
+        if (tomShift(original[i], tom) != plagio[k]){ 
             if (r != 0 && i > 0){
                 if (original[i] == original[i - 1] && tomShift(original[i], tom) == plagio[0]) continue;
             }
@@ -78,11 +80,12 @@ int shiftAnd(NO *nota, int *contador){
                 tom = tons(original[i], plagio[k]);
             } 
         }
-        (*contador)++;
+        (*contador)++; // Contador de comparações
 
+        // Primeiro é feito o shift
         int shift = 1;
         for(int j = 0; j < particoes; j++){
-            if(shift == 1){
+            if(shift == 1){ // Verifica se terminou em 1. Se sim, seta o bit mais significativo
                 shift = r[j] & 1;
                 if(j == 0){
                     r[j] = (r[j] >> 1) | (1 << ((nota->plagioTamanho % 32) - 1));
@@ -97,6 +100,7 @@ int shiftAnd(NO *nota, int *contador){
             
         }
 
+        // E depois aplica a mascara
         for(int j = 0, jj = particoes -1; j < particoes; j++, jj--){
             r[j] &= mascaras[tomShift(original[i], tom) - 1][jj];    
         }

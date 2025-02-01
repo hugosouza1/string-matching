@@ -1,7 +1,7 @@
 #include "KMP.h"
 
 int *criarTabelaLPS(int *padrao, int tamanho){ 
-    int *tabela = (int*)malloc(tamanho * sizeof(int));
+    int *tabela = (int*)malloc(tamanho * sizeof(int)); // Tabela de deslocamento 
     int i = 0, j = 1;
     tabela[0] = 0;
     while (j < tamanho){
@@ -27,11 +27,11 @@ int KMP(NO* nota, int *contador){
 
     int i = 0, j = 0;
     int *tabela = criarTabelaLPS(padrao, nota->plagioTamanho);
-    int tom = tons(texto[0], padrao[0]);
+    int tom = tons(texto[0], padrao[0]); //  Tom para comparação inicial
 
     while (i < nota->originalTamanho && j < nota->plagioTamanho){
-        (*contador)++;
-        if (tomShift(texto[i], tom) == padrao[j]){
+        (*contador)++; // Contador de comparções
+        if (tomShift(texto[i], tom) == padrao[j]){ // Compara subindo o tom do texto para ver se bate com o padrão
             i++;
             j++;
             if (j == nota->plagioTamanho){
@@ -69,7 +69,7 @@ int KMP(NO* nota, int *contador){
 
 int* resolucaoKMP(Fila *notas){
     NO *aux = notas->inicio;
-    int *resultado = (int*)malloc(sizeof(int) * notas->tamanho);
+    int *resultado = (int*)malloc(sizeof(int) * notas->tamanho); // Vetor de resultado
     int i = 0, contador = 0;
     while (aux != NULL){
         resultado[i] = KMP(aux, &contador);

@@ -1,5 +1,7 @@
 #include "leitura.h"
 
+
+// Converte as notas musicais para números inteiros
 int *identificaTecla(double *melodia, int melodiaTamanho){
     int *teclas = (int*)malloc(melodiaTamanho * sizeof(int));
     for(int i = 0; i < melodiaTamanho; i++){
@@ -21,7 +23,7 @@ int *identificaTecla(double *melodia, int melodiaTamanho){
 }
 
 
-
+// Identifica os bemois e sustenidos para converter para números inteiros
 int *converteMelodia(char *linha, double *array, int arrayTamanho) {
     char *token = strtok(linha, " ");
     for(int i = 0; token != NULL && i < arrayTamanho; i++) {
@@ -51,32 +53,32 @@ Fila * leitura(char *path){
     while(1){
         int originalTam = 0, copiaTam = 0;
         int tamMax = 0;
-
+    
+        // Identificação dos tamanhos do texto e padrão
         char *numero = (char*)malloc(500 * sizeof(char));
         fgets(numero, 500, arq);
         sscanf(numero, "%d %d", &originalTam, &copiaTam);
         free(numero);
 
-        //printf("teste %d %d\n", originalTam, copiaTam);
         if(originalTam == 0 && copiaTam == 0){
-            break;
+            break; // Fim do arquivo
         } 
 
         //--------------------------------------------------//
 
-        tamMax = originalTam * 5;
+        tamMax = originalTam * 5; // Tamanho maximo para a linha de leitura
         char *linha = (char*)malloc(tamMax * sizeof(char)); // Tamanho da linha ao quadrado + 1 para o terminador nulo
         double *original = (double*)malloc(originalTam * sizeof(double));
         double *copia = (double*)malloc(copiaTam * sizeof(double));
 
         fgets(linha, tamMax, arq); // Ler a linha inteira
-        int *originalConvertida = converteMelodia(linha, original, originalTam);
+        int *originalConvertida = converteMelodia(linha, original, originalTam); // Conversão do texto
 
         fgets(linha, tamMax, arq); // Ler a linha inteira
-        int *copiaConvertida = converteMelodia(linha, copia, copiaTam);
+        int *copiaConvertida = converteMelodia(linha, copia, copiaTam); // Conversão do padrão
 
-        enfileirar(fila, originalConvertida, copiaConvertida, originalTam, copiaTam);
-        free(linha); free(original); free(copia);
+        enfileirar(fila, originalConvertida, copiaConvertida, originalTam, copiaTam); // Enfileira a estrutura
+        free(linha); free(original); free(copia); // libera a memória alocada de cada iteração
     }
 
     fclose(arq);

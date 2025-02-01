@@ -1,7 +1,7 @@
 #include "BMH.h"
 
 int *criaTabelaBMH(NO *nota, int tom){
-    int *tabela = (int*)malloc(12 * sizeof(int));
+    int *tabela = (int*)malloc(12 * sizeof(int)); // Tabela de deslocamento
     for (int i = 0; i < 12; i++){
         tabela[i] = nota->plagioTamanho; 
     }
@@ -22,16 +22,16 @@ int BMH(NO *nota, int* contador){
         while (i < nota->originalTamanho){
             int k = i;                        // k é o índice do texto
             int j = nota->plagioTamanho - 1; // j é o índice do padrão
-    
-            while (j >= 0 && nota->original[k] == tomShift(nota->plagio[j], tom)){
-                (*contador)++;
+            // Compara elevando o tom do plagio para bater com o tom do original
+            while (j >= 0 && nota->original[k] == tomShift(nota->plagio[j], tom)){ 
+                (*contador)++; // Contador de comparações
                 j--;
                 k--;
             }
 
             if (j < 0){
                 free(tabela);
-                return i - nota->plagioTamanho + 1;
+                return i - nota->plagioTamanho + 1; // Achou o padrão
             } 
             
             i += tabela[nota->original[i] - 1]; 
@@ -41,12 +41,12 @@ int BMH(NO *nota, int* contador){
         free(tabela);
     }
     
-    return -1;
+    return -1; // Não achou o padrão
 }
 
 int* resolucaoBMH(Fila *notas){
     NO *aux = notas->inicio;
-    int *resultado = (int*)malloc(sizeof(int) * notas->tamanho);
+    int *resultado = (int*)malloc(sizeof(int) * notas->tamanho); // Vetor de resultado
     int i = 0, contador = 0;
     while(aux != NULL){
         resultado[i] = BMH(aux, &contador);
