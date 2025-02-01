@@ -48,7 +48,7 @@ int KMP(NO* nota, int *contador){
                         if(tomShift(texto[i], tomAux) == padrao[j+1]){
                             tom = tomAux;
                             j = j+1;
-                        } else {
+                        } else if(j == 0) {
                             tom = tons(texto[i],padrao[j]);
                         }
                     } 
