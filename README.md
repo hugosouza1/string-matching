@@ -1,20 +1,75 @@
-
-# Algoritmos de Casamento de Padrões
+# Reconhecimento de Padrões Musicais
 
 **Desenvolvedores:** Hugo Alves Azevedo de Souza e Rafael Moisés de Sá Tavares
 
-Projeto desenvolvido em **C** para implementação e comparação de diferentes algoritmos de casamento de padrões (*string matching*). A aplicação recebe um texto e um padrão como entrada e identifica a primeira ocorrência do padrão no texto utilizando diferentes estratégias de busca.
+Projeto desenvolvido em **C** para reconhecimento e comparação de sequências de notas musicais utilizando algoritmos clássicos de casamento de padrões (*string matching*).
 
-O projeto tem como objetivo explorar e comparar algoritmos clássicos de processamento de strings, analisando aspectos como número de comparações e tempo de execução.
+O sistema recebe uma sequência musical e um padrão de notas e busca ocorrências do padrão dentro da sequência. Como diferencial, o casamento não depende das notas absolutas, permitindo reconhecer **sequências equivalentes em diferentes tonalidades**.
+
+Por exemplo, considerando o padrão:
+
+```text
+BC
+```
+
+uma sequência contendo:
+
+```text
+EF
+```
+
+também pode ser reconhecida, pois as duas sequências preservam a mesma relação entre as notas. Dessa forma, o sistema é capaz de identificar **motivos ou trechos musicais transpostos para diferentes tons**, em vez de comparar apenas as notas literalmente.
 
 ## Algoritmos Implementados
 
-A aplicação disponibiliza quatro métodos de busca:
+O projeto implementa quatro algoritmos clássicos de casamento de padrões:
 
-1. **Força Bruta** — realiza comparações sequenciais entre o padrão e as possíveis posições no texto.
-2. **KMP (Knuth-Morris-Pratt)** — utiliza informações sobre o próprio padrão para evitar comparações desnecessárias.
-3. **BMH (Boyer-Moore-Horspool)** — utiliza deslocamentos baseados nos caracteres do padrão para acelerar a busca.
-4. **Shift-And** — utiliza operações sobre bits para realizar o casamento do padrão de forma eficiente.
+1. **Força Bruta**
+2. **KMP (Knuth-Morris-Pratt)**
+3. **BMH (Boyer-Moore-Horspool)**
+4. **Shift-And**
+
+Os algoritmos são utilizados como base para o reconhecimento das sequências musicais, enquanto a lógica de comparação considera a relação entre as notas para permitir o reconhecimento de padrões transpostos.
+
+### Exemplo
+
+Considere o padrão:
+
+```text
+BC
+```
+
+A sequência:
+
+```text
+ABCDEF
+```
+
+contém o padrão literalmente:
+
+```text
+BC
+```
+
+Porém, uma sequência como:
+
+```text
+CDEFG
+```
+
+também pode conter uma ocorrência equivalente, dependendo da posição e da transposição considerada.
+
+Por exemplo:
+
+```text
+BC
+EF
+```
+
+representam o mesmo intervalo entre as notas, portanto o sistema pode considerar `EF` uma ocorrência do padrão `BC`.
+
+Essa abordagem permite procurar **motivos musicais independentemente da tonalidade em que foram executados**, tornando os algoritmos tradicionais de casamento de padrões aplicáveis ao reconhecimento de sequências musicais.
+
 
 ## Execução
 
