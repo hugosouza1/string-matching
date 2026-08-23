@@ -1,24 +1,65 @@
-# Reconhecimento de Padrões Musicais
+# Casamento de Padrões Musicais
 
 **Desenvolvedores:** Hugo Alves Azevedo de Souza e Rafael Moisés de Sá Tavares
 
-Projeto desenvolvido em **C** para reconhecimento e comparação de sequências de notas musicais utilizando algoritmos clássicos de casamento de padrões (*string matching*).
+Projeto desenvolvido em **C** para reconhecimento de padrões em sequências de notas musicais utilizando diferentes algoritmos de casamento de padrões (*string matching*).
 
-O sistema recebe uma sequência musical e um padrão de notas e busca ocorrências do padrão dentro da sequência. Como diferencial, o casamento não depende das notas absolutas, permitindo reconhecer **sequências equivalentes em diferentes tonalidades**.
+O sistema recebe uma sequência musical e um padrão e identifica se o padrão ocorre dentro da sequência. O principal diferencial do projeto é que o reconhecimento considera a **relação intervalar entre as notas**, permitindo encontrar um mesmo padrão mesmo quando ele é **transposto para outra tonalidade**.
 
-Por exemplo, considerando o padrão:
-
-```text
-BC
-```
-
-uma sequência contendo:
+Dessa forma, o sistema não realiza apenas uma comparação literal das notas. Por exemplo, o padrão:
 
 ```text
-EF
+B C
 ```
 
-também pode ser reconhecida, pois as duas sequências preservam a mesma relação entre as notas. Dessa forma, o sistema é capaz de identificar **motivos ou trechos musicais transpostos para diferentes tons**, em vez de comparar apenas as notas literalmente.
+pode ser reconhecido em:
+
+```text
+E F
+```
+
+pois ambas as sequências representam o mesmo intervalo entre as notas. Assim, um motivo musical pode ser encontrado independentemente da tonalidade em que foi executado.
+
+## Representação das notas
+
+As sequências são representadas utilizando a notação convencional das notas musicais:
+
+```text
+A B C D E F G
+```
+
+Também são aceitos acidentes musicais:
+
+* `#` — sustenido
+* `b` — bemol
+
+Por exemplo:
+
+```text
+A# Db C B C#
+```
+
+representa uma sequência contendo **Lá sustenido, Ré bemol, Dó, Si e Dó sustenido**.
+
+Os padrões e sequências podem possuir diferentes combinações de notas naturais, sustenidos e bemóis.
+
+## Exemplo
+
+Considere a sequência:
+
+```text
+A F Gb C Gb A Db Gb A# Db C B C# A G G D C E B C G# Bb Db C D Eb A E A# Gb E A
+```
+
+e o padrão:
+
+```text
+A# Db C B C# A G G D C E B C G# Bb Db C D Eb A E A# Gb E A D#
+```
+
+O programa busca a ocorrência do padrão considerando sua estrutura musical, permitindo reconhecer a sequência mesmo quando ela aparece transposta para outra tonalidade.
+
+Essa característica permite utilizar os algoritmos de casamento de padrões para identificar **motivos, trechos ou sequências musicais equivalentes**, independentemente das notas absolutas utilizadas.
 
 ## Algoritmos Implementados
 
@@ -29,65 +70,74 @@ O projeto implementa quatro algoritmos clássicos de casamento de padrões:
 3. **BMH (Boyer-Moore-Horspool)**
 4. **Shift-And**
 
-Os algoritmos são utilizados como base para o reconhecimento das sequências musicais, enquanto a lógica de comparação considera a relação entre as notas para permitir o reconhecimento de padrões transpostos.
+Cada algoritmo é utilizado para realizar a busca das sequências musicais, permitindo comparar seu desempenho em relação ao tempo de execução e à quantidade de comparações realizadas.
 
-### Exemplo
+## Funcionalidades
 
-Considere o padrão:
+* Busca de padrões em sequências de notas musicais.
+* Reconhecimento de padrões transpostos para diferentes tonalidades.
+* Suporte a notas naturais, sustenidos (`#`) e bemóis (`b`).
+* Medição do tempo de execução.
 
-```text
-BC
-```
+## Formato de Entrada
 
-A sequência:
-
-```text
-ABCDEF
-```
-
-contém o padrão literalmente:
+Cada caso de teste possui três linhas:
 
 ```text
-BC
+<tamanho_da_sequência> <tamanho_do_padrão>
+<sequência de notas>
+<padrão>
 ```
 
-Porém, uma sequência como:
+Exemplo:
 
 ```text
-CDEFG
+69 27
+A F Gb C Gb A Db Gb A# Db C B C# A G G D C E B C G# Bb Db C D Eb A E A# Gb E A D# A# E G# Gb E G Bb F C B C Gb Gb E A A F G# B Ab E A Gb F C# E Eb E C# G# F Gb G C A
+A# Db C B C# A G G D C E B C G# Bb Db C D Eb A E A# Gb E A D# A# 
 ```
 
-também pode conter uma ocorrência equivalente, dependendo da posição e da transposição considerada.
+O primeiro valor representa a quantidade de notas da sequência, enquanto o segundo representa a quantidade de notas do padrão.
 
-Por exemplo:
+A entrada pode conter múltiplos casos de teste. O processamento é encerrado quando é encontrado:
 
 ```text
-BC
-EF
+0 0
 ```
 
-representam o mesmo intervalo entre as notas, portanto o sistema pode considerar `EF` uma ocorrência do padrão `BC`.
+## Saída
 
-Essa abordagem permite procurar **motivos musicais independentemente da tonalidade em que foram executados**, tornando os algoritmos tradicionais de casamento de padrões aplicáveis ao reconhecimento de sequências musicais.
+Para cada caso de teste, o programa informa se o padrão foi encontrado.
 
+* `S <posição>` — padrão encontrado na posição indicada.
+* `N` — padrão não encontrado.
+
+Exemplo:
+
+```text
+Força Bruta
+S 7
+N
+S 0
+```
+
+Além dos resultados, são apresentadas métricas de desempenho, incluindo o tempo de leitura, o número de comparações, o tempo de execução do algoritmo e o tempo de escrita.
 
 ## Execução
 
-Para compilar o projeto, execute:
+Para compilar o projeto:
 
 ```bash
 make build
 ```
 
-O comando compila os arquivos-fonte e gera o executável `tp3`.
-
-Para executar utilizando um método específico:
+Para executar utilizando um algoritmo específico:
 
 ```bash
 ./tp3 entrada.txt 1
 ```
 
-O segundo argumento define o algoritmo utilizado:
+Os métodos disponíveis são:
 
 ```text
 1 - Força Bruta
@@ -96,77 +146,24 @@ O segundo argumento define o algoritmo utilizado:
 4 - Shift-And
 ```
 
-Também é possível executar diretamente através do `Makefile`:
+Também é possível executar através do `Makefile`:
 
 ```bash
 make run metodo=1
 ```
 
-Caso o parâmetro `metodo` não seja informado, o método padrão é o **Shift-And**.
+O método padrão é o **Shift-And** caso `metodo` não seja informado.
 
-### Verificação de memória
-
-Para executar o programa utilizando o **Valgrind**:
+Para verificar vazamentos de memória utilizando Valgrind:
 
 ```bash
 make leak
 ```
 
-Esse comando recompila o projeto e executa a aplicação com verificações de vazamentos e problemas de memória.
-
 Para remover os arquivos gerados durante a compilação:
 
 ```bash
 make clean
-```
-
-## Formato de Entrada
-
-A entrada é composta por múltiplos casos de teste. Cada caso possui:
-
-```text
-<tamanho_do_texto> <tamanho_do_padrao>
-<texto>
-<padrao>
-```
-
-O último caso deve ser indicado por:
-
-```text
-0 0
-```
-
-Exemplo:
-
-```text
-10 3
-abracadabra
-cad
-0 0
-```
-
-Os tamanhos informados devem corresponder aos respectivos textos e padrões. A entrada não deve possuir linhas vazias entre os casos de teste.
-
-## Saída
-
-Os resultados são armazenados no arquivo:
-
-```text
-tp3.out
-```
-
-Para cada caso de teste, o programa informa se o padrão foi encontrado e, quando encontrado, indica a posição da **primeira ocorrência**.
-
-* `S <posição>` — padrão encontrado.
-* `N` — padrão não encontrado.
-
-Exemplo:
-
-```text
-KMP
-S 4
-N
-S 0
 ```
 
 Além dos resultados, o programa apresenta informações de desempenho no terminal, incluindo:
